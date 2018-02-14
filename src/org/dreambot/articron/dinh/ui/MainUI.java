@@ -33,4 +33,16 @@ public class MainUI extends HFrame {
     public static void main(String[] args) {
         new MainUI("ArtiAirOrbs PRO", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"));
     }
+
+    public InformationPanel getInformationPanel() {
+        return informationPanel;
+    }
+
+    public ExchangePanel getExchangePanel() {
+        return exchangePanel;
+    }
+
+    public SettingPanel getSettingPanel() {
+        return settingPanel;
+    }
 }

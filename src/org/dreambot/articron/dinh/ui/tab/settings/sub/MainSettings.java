@@ -25,5 +25,11 @@ public class MainSettings extends HPanel {
         add(otherSettings = new OtherSettings(SettingPanel.getBorder("Exchange")));
     }
 
+    public MandatorySettings getMandatorySettings() {
+        return mandatorySettings;
+    }
 
+    public OtherSettings getOtherSettings() {
+        return otherSettings;
+    }
 }

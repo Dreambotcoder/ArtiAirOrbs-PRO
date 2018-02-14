@@ -32,4 +32,16 @@ public class TeleportSettings extends HPanel {
         add(teleportOptions = new HButtons(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Teleport on Skulled Player", "Teleport before Teleblock"), constraints);
         add(selection = new TeleportSelection(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), JSlider.HORIZONTAL, 0, 100, 90), constraints);
     }
+
+    public HButtons getTeleportOptions() {
+        return teleportOptions;
+    }
+
+    public HButtonGroup getTeleportPanel() {
+        return teleportPanel;
+    }
+
+    public TeleportSelection getSelection() {
+        return selection;
+    }
 }

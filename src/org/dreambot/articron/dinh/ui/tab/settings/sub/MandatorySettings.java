@@ -26,7 +26,13 @@ public class MandatorySettings extends HPanel {
         setPreferredSize(slider.getPreferredSize());
 
         add(foodSelection = new FoodSelection(BorderFactory.createCompoundBorder(SettingPanel.getBorder("Food to use"), BorderFactory.createEmptyBorder(2, 2, 2, 2))));
+    }
 
+    public HSliderPanel getSlider() {
+        return slider;
+    }
 
+    public FoodSelection getFoodSelection() {
+        return foodSelection;
     }
 }
