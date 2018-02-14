@@ -1,6 +1,5 @@
 package org.dreambot.articron.api.util.traversal;
 
-import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.CronUtil;
 import org.dreambot.articron.api.util.conditional.SupplierGroup;
@@ -59,15 +58,12 @@ public class CustomPath {
                 }
 
                 while (closest.hasPassed(context)) {
-                    PathNode next = closest.getNext();
-                    closest = next;
+                    closest = closest.getNext();
                 }
 
-                if (closest != null) {
-                    CronUtil.CURRENT_NODE = closest;
-                    if (!closest.traverse(context, stopConditions)) {
-                        break;
-                    }
+                CronUtil.CURRENT_NODE = closest;
+                if (!closest.traverse(context, stopConditions)) {
+                    break;
                 }
             } catch (NullPointerException e) {
                 break;

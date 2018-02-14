@@ -72,11 +72,7 @@ public class ObjectNode implements PathNode {
             return true;
         if (getObject(api) != null) {
             if (getObject(api).getTile().distance() < distance()) {
-                if (getObject(api).interact(action)) {
-                    return true;
-                } else {
-                    return api.getDB().getCamera().rotateToEntity(getObject(api));
-                }
+                return getObject(api).interact(action) || api.getDB().getCamera().rotateToEntity(getObject(api));
             }
         }
         return ifDistant(api);

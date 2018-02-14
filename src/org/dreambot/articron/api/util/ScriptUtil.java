@@ -1,12 +1,9 @@
 package org.dreambot.articron.api.util;
 
 import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
-import org.dreambot.api.methods.prayer.Prayer;
 import org.dreambot.api.methods.skills.Skill;
-import org.dreambot.api.wrappers.interactive.Entity;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
-import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;

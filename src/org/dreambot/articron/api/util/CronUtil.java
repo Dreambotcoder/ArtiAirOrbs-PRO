@@ -1,7 +1,6 @@
 package org.dreambot.articron.api.util;
 
 
-import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.articron.api.util.traversal.PathNode;

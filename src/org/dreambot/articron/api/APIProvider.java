@@ -3,7 +3,6 @@ package org.dreambot.articron.api;
 import org.dreambot.api.script.AbstractScript;
 import org.dreambot.articron.api.controller.impl.node.NodeController;
 import org.dreambot.articron.api.util.ScriptUtil;
-import org.dreambot.articron.api.util.concurrency.ChargeChecker;
 import org.dreambot.articron.api.util.traversal.CustomPath;
 import org.dreambot.articron.paint.PaintManager;
 

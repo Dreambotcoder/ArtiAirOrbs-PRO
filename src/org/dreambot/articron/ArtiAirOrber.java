@@ -55,7 +55,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         () -> api.getUtil().atObelisk(),
                         () -> api.getUtil().hasLowHP()
                 ),
-                new WalkNode(3094,3470) {
+                new WalkNode(3094, 3470) {
                     @Override
                     public boolean hasPassed(APIProvider api) {
                         return getGameObjects().getTopObjectOnTile(getNext().getTile()).isOnScreen();
@@ -66,7 +66,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         return 1;
                     }
                 },
-                new ObjectNode("Trapdoor","Open", new Tile(3097,3468), new Tile(3095,3469)) {
+                new ObjectNode("Trapdoor", "Open", new Tile(3097, 3468), new Tile(3095, 3469)) {
 
                     @Override
                     public boolean hasPassed(APIProvider api) {
@@ -74,27 +74,27 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                     }
 
                 },
-                new ObjectNode("Trapdoor","Climb-down", new Tile(3097,3468), new Tile(3095,3469)) {
+                new ObjectNode("Trapdoor", "Climb-down", new Tile(3097, 3468), new Tile(3095, 3469)) {
 
                     @Override
                     public boolean hasPassed(APIProvider api) {
-                        return super.hasPassed(api) || getLocalPlayer().getTile().equals(new Tile(3096,9867));
+                        return super.hasPassed(api) || getLocalPlayer().getTile().equals(new Tile(3096, 9867));
                     }
 
                     @Override
                     public boolean ifDistant(APIProvider api) {
-                        return api.getDB().getWalking().walk(new Tile(3095,3469));
+                        return api.getDB().getWalking().walk(new Tile(3095, 3469));
                     }
                 },
                 //new WalkNode(3103,9909),
                 //new WalkNode(3096, 9907),
-                new WalkNode(3105,9909) {
+                new WalkNode(3105, 9909) {
                     @Override
                     public boolean hasPassed(APIProvider api) {
                         return getNext().getTile().distance() <= 12;
                     }
                 },
-                new ObjectNode("Gate", "Open", 3103,9909) {
+                new ObjectNode("Gate", "Open", 3103, 9909) {
                     @Override
                     public int distance() {
                         return 8;
@@ -105,27 +105,27 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         return api.getDB().getMap().canReach(getNext().getTile()) || !exists(api);
                     }
                 },
-                new WalkNode(3117,9910) {
+                new WalkNode(3117, 9910) {
                     @Override
                     public boolean hasPassed(APIProvider api) {
                         return api.getDB().getMap().canReach(getNext().getTile());
                     }
                 },
-                new ObjectNode("Gate","Open", 3132,9917) {
+                new ObjectNode("Gate", "Open", 3132, 9917) {
                     @Override
                     public int distance() {
                         return 8;
                     }
                 },
-               // new WalkNode(3131,9925),
+                // new WalkNode(3131,9925),
                 //new WalkNode(3112,9933),
-                new WalkNode(3107,9942) {
+                new WalkNode(3107, 9942) {
                     @Override
                     public boolean hasPassed(APIProvider api) {
                         return getNext().getTile().distance() < 8;
                     }
                 },
-                new ObjectNode("Gate","Open", new Tile(3105,9944), new Tile(3106,9943)) {
+                new ObjectNode("Gate", "Open", new Tile(3105, 9944), new Tile(3106, 9943)) {
 
                     @Override
                     public int distance() {
@@ -138,13 +138,13 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                     }
 
                 },
-                new WalkNode(3105,9952) {
+                new WalkNode(3105, 9952) {
                     @Override
                     public boolean hasPassed(APIProvider api) {
                         return api.getDB().getMap().canReach(getNext().getTile());
                     }
                 },
-                new WalkNode(3088,9970) {
+                new WalkNode(3088, 9970) {
                     @Override
                     public boolean hasPassed(APIProvider api) {
                         return api.getDB().getMap().isTileOnMap(getNext().getTile());
@@ -163,7 +163,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         api.getUtil().getBankManager().addItem("Amulet of glory(6)", 1, () -> !api.getUtil().hasGlory());
         api.getUtil().getBankManager().addItem("Stamina potion(4)", 1, () -> api.getUtil().hasGlory(),
                 () -> getInventory().contains(item -> item.getName().contains("Stamina potion")),
-                CronUtil.createNumericStrings("Stamina potion(%s)",1,4));
+                CronUtil.createNumericStrings("Stamina potion(%s)", 1, 4));
         api.getUtil().getBankManager().addItem("Unpowered orb", 26, () -> api.getUtil().hasGlory());
         api.getUtil().getBankManager().addItem("Unpowered orb", 26, () -> !api.getUtil().hasGlory());
         api.getNodeController().commit(
@@ -171,7 +171,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                 new DefaultZoom(
                         () -> getClientSettings().getExactZoomValue() != CronUtil.DEFAULT_ZOOM
                 ),
-                new EatTree(() ->api.getUtil().hasLowHP()).addChildren(
+                new EatTree(() -> api.getUtil().hasLowHP()).addChildren(
                         new GloryTele(() -> !CronUtil.BANK_AREA.contains(getLocalPlayer())),
                         new OpenBank(() -> !getBank().isOpen() && !getInventory().contains(item -> item != null && item.hasAction("Eat")))
                 ),
@@ -202,7 +202,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                 new WearItem(() -> !api.getUtil().hasGlory() && getInventory().contains(item ->
                         !item.getName().equalsIgnoreCase("Amulet of glory") &&
                                 item.getName().contains("Amulet of glory")),
-                        CronUtil.createNumericStrings("Amulet of glory(%s)",1,6)),
+                        CronUtil.createNumericStrings("Amulet of glory(%s)", 1, 6)),
                 new PrayMelee(
                         () -> api.getUtil().shouldPray() && !api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
                 ),
@@ -217,11 +217,11 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                 ),
                 new MakeOrbs(
                         () -> api.getUtil().atObelisk() && !api.getUtil().getMakeHandler().isOpen()
-                        && !api.getUtil().isCharging()
+                                && !api.getUtil().isCharging()
                 ),
                 new MakeAction(
                         () -> api.getUtil().atObelisk() && api.getUtil().getMakeHandler().isOpen()
-                        && !api.getUtil().isCharging()
+                                && !api.getUtil().isCharging()
                 )
         );
         getWalking().setRunThreshold(api.getUtil().getPotThreshold());

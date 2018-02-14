@@ -1,6 +1,5 @@
 package org.dreambot.articron.api.util.traversal.impl;
 
-import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.conditional.SupplierGroup;
@@ -13,7 +12,7 @@ public class WalkNode implements PathNode {
     private PathNode next;
 
     public WalkNode(int x, int y) {
-        this(x,y,0);
+        this(x, y, 0);
     }
 
     public WalkNode(Tile tile) {
@@ -21,7 +20,7 @@ public class WalkNode implements PathNode {
     }
 
     public WalkNode(int x, int y, int z) {
-        this(new Tile(x,y,z));
+        this(new Tile(x, y, z));
     }
 
 
@@ -59,15 +58,12 @@ public class WalkNode implements PathNode {
         if (hasPassed(api))
             return true;
         if (api.getDB().getWalking().walk(tile.getRandomizedTile(getMaxRadius()))) {
-           // MethodProvider.sleep(600);
+            // MethodProvider.sleep(600);
             Tile t = api.getDB().getClient().getDestination();
-            if (t != null) {
-                return true;/*MethodProvider.sleepUntil(() -> t.distance() <= 8 || hasPassed(api) ||
+            /*MethodProvider.sleepUntil(() -> t.distance() <= 8 || hasPassed(api) ||
                         stopConditions.getAsBoolean(), (long) t.distance() * 600);
                         */
-            } else {
-                return traverse(api,stopConditions);
-            }
+            return t != null || traverse(api, stopConditions);
         }
         return false;
     }

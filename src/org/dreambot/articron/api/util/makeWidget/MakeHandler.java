@@ -17,7 +17,7 @@ public class MakeHandler {
     }
 
     public boolean isOpen() {
-        WidgetChild c = api.getDB().getWidgets().getWidgetChild(MAKE_WIDGET,0);
+        WidgetChild c = api.getDB().getWidgets().getWidgetChild(MAKE_WIDGET, 0);
         return (c != null) && c.isVisible();
     }
 
@@ -70,8 +70,6 @@ public class MakeHandler {
     }
 
     public boolean hasCustomAmount() {
-        if (!isOpen())
-            return false;
-        return getCustomAmount() != -1;
+        return isOpen() && getCustomAmount() != -1;
     }
 }
