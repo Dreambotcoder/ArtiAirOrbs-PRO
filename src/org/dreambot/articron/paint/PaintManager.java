@@ -13,12 +13,19 @@ public class PaintManager {
     private Timer timer;
     private String status = "";
     private MouseTip mouseTip;
+    private final Font MAIN_FONT;
+
+    private final Color BACKGROUND_COLOR;
+    private final Color BORDER;
 
     public PaintManager(APIProvider api) {
         this.api = api;
         this.timer = new Timer();
         this.mouseTip = new MouseTip(api,this);
         api.getDB().getSkillTracker().start();
+        MAIN_FONT = new Font("Arial",Font.PLAIN, 12);
+        BACKGROUND_COLOR = new Color(0.4f,0.2f,0.2f, 0.3f);
+        BORDER = new Color(0.7f,0.2f,0.2f, 0.8f);
     }
 
     public void setStatus(String status) {
@@ -32,10 +39,10 @@ public class PaintManager {
     public void onPaint(Graphics2D g) {
         mouseTip.paint(g);
         int x = 35;
-        g.setFont(new Font("Arial",Font.PLAIN, 12));
-        g.setColor(new Color(0.4f,0.2f,0.2f, 0.3f));
+        g.setFont(MAIN_FONT);
+        g.setColor(BACKGROUND_COLOR);
         g.fillRoundRect(30,30,230,150,10,10);
-        g.setColor(new Color(0.7f,0.2f,0.2f, 0.8f));
+        g.setColor(BORDER);
         g.drawRoundRect(30,30,230,150,10,10);
 
         g.setColor(Color.WHITE);
@@ -44,8 +51,9 @@ public class PaintManager {
         g.drawString("Orbs P/H: " + timer.getHourlyRate(CronUtil.ORBS_CREATED), x, 110);
         g.drawString("Magic XP gained: " + api.getDB().getSkillTracker().getGainedExperience(Skill.MAGIC), x, 130);
         g.drawString("Exp /H: " + api.getDB().getSkillTracker().getGainedExperiencePerHour(Skill.MAGIC), x, 150);
-        g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
-        //g.drawString("Bank set: " + CronUtil.BANKSET, x, 170);
+       // g.drawString("GameState: " + api.getDB().getClient().getGameState().name(), x, 170);
+        ///g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
+       // g.drawString("Bank set: " + CronUtil.BANKSET, x, 170);
         //g.drawString("Walking node: " + CronUtil.CURRENT_NODE.toString(), x, 170);
 
         //g.drawString("Zoom: " + api.getDB().getClientSettings().getExactZoomValue(), 30,110);

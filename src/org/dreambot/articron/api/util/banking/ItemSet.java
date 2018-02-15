@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
+import java.util.function.IntSupplier;
 
 public class ItemSet {
 
@@ -22,6 +23,10 @@ public class ItemSet {
 
     public void addItem(String name, int amount, String... deviations) {
         items.add(new WithdrawItem(name,amount,deviations));
+    }
+
+    public void addItem(String name, IntSupplier supplier, String... deviations) {
+        items.add(new WithdrawItem(name,supplier,deviations));
     }
 
     private boolean hasItem(WithdrawItem item) {

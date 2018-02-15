@@ -28,6 +28,7 @@ import org.dreambot.articron.behaviour.misc.*;
 import org.dreambot.articron.behaviour.traversal.DrinkStamina;
 import org.dreambot.articron.behaviour.traversal.WalkToObelisk;
 import org.dreambot.articron.behaviour.traversal.teleport.GloryTele;
+import org.dreambot.articron.data.Edible;
 
 import java.awt.*;
 
@@ -166,7 +167,8 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         );
         api.registerPath(obeliskPath);
         api.getUtil().getBankManager().setSet("food", new ItemSet(api, () -> api.getUtil().hasLowHP()));
-        api.getUtil().getBankManager().getSet("food").addItem("Lobster",2);
+        api.getUtil().getBankManager().getSet("food").addItem(Edible.LOBSTER.toString(),
+                () -> Edible.required(Edible.LOBSTER,getSkills()));
         api.getUtil().getBankManager().setSet("normal", new ItemSet(api, () -> api.getUtil().hasTeleport() &&
         !api.getUtil().hasLowHP()));
         api.getUtil().getBankManager().getSet("normal").addItem("Cosmic rune", 78);
@@ -191,7 +193,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         () -> getClientSettings().getExactZoomValue() != CronUtil.DEFAULT_ZOOM
                 ),
                 new HopWorld(
-                        () -> CronUtil.BANK_AREA.contains(getLocalPlayer()) && api.getUtil().getAntiPkController().shouldHop()
+                        () -> !getLocalPlayer().isInCombat() && api.getUtil().getAntiPkController().shouldHop()
                 ),
                 new EatTree(() ->api.getUtil().hasLowHP()).addChildren(
                         new GloryTele(() -> !CronUtil.BANK_AREA.contains(getLocalPlayer())),

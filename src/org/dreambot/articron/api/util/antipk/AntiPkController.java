@@ -50,7 +50,7 @@ public class AntiPkController {
                 return false;
             int min = api.getDB().getLocalPlayer().getLevel() - getWildernessLevel();
             int max = api.getDB().getLocalPlayer().getLevel() + getWildernessLevel();
-            return player.getLevel() >= min && player.getLevel() <= max;
+            return player.getLevel() >= min && player.getLevel() <= max && player.isSkulled();
         };
     }
 

@@ -119,7 +119,8 @@ public class ObjectNode implements PathNode {
 
     @Override
     public boolean exists(APIProvider api) {
-        return getObject(api) != null && getObject(api).exists();
+        GameObject object = getObject(api);
+        return object != null && object.exists();
     }
 
     @Override

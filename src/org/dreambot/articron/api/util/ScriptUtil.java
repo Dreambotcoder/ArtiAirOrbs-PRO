@@ -4,6 +4,7 @@ import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
+import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
@@ -63,7 +64,8 @@ public class ScriptUtil {
 
     public boolean shouldTeleport() {
         return (!api.getDB().getInventory().contains("Cosmic rune") || !api.getDB().getInventory().contains("Unpowered orb"))
-                || api.getUtil().getAntiPkController().pkerExists();
+                || api.getUtil().getAntiPkController().pkerExists() && api.getDB().getLocalPlayer().isInCombat()
+                && api.getDB().getLocalPlayer().getCharacterInteractingWithMe() instanceof Player;
     }
 
     public boolean gettingHit() {
