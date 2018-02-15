@@ -11,14 +11,16 @@ public class AntibanController {
     private Map<BooleanSupplier, AbstractAntiban> antibans = new HashMap<>();
     private APIProvider api;
 
-    public static double FATIGUE;
+    private double fatigue = 23.4f, seed;
 
-    static {
-        FATIGUE = 20.4f;
+
+    public AntibanController(APIProvider api,double seed) {
+        this.seed = seed;
+        this.api = api;
     }
 
-    public AntibanController(APIProvider api) {
-        this.api = api;
+    public double getFatigue() {
+        return fatigue;
     }
 
     public void addAntiBan(AbstractAntiban antiban) {
@@ -28,6 +30,11 @@ public class AntibanController {
     public void addAntiBan(BooleanSupplier when, AbstractAntiban antiban) {
         this.antibans.put(when,antiban);
     }
+
+     public int getFatiguedSleep(int range) {
+        return (int) Math.ceil(range * (fatigue / 100));
+    }
+
 
 
 }

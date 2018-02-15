@@ -68,11 +68,18 @@ public class ObjectNode implements PathNode {
     public boolean traverse(APIProvider api, SupplierGroup stopConditions) {
         if (hasPassed(api))
             return true;
-        if (objectLoc.distance() < 10 && getObject(api) == null)
-            return true;
-        if (getObject(api) != null) {
-            if (getObject(api).getTile().distance() < distance()) {
-                return getObject(api).interact(action);
+        if (api.getDB().getMap().isTileOnMap(objectLoc)) {
+            if (api.getDB().getCamera().rotateToTile(objectLoc)) {
+                if (exists(api)) {
+                    return getObject(api).interact(action)
+                            && MethodProvider.sleepUntil(() -> {
+                                MethodProvider.sleep(100);
+                                return hasPassed(api) || !api.getDB().getLocalPlayer().isMoving();
+                            },
+                            (long) objectLoc.distance() * 600);
+                } else {
+                    return ifDistant(api);
+                }
             }
         }
         return ifDistant(api);

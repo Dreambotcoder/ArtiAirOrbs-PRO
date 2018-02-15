@@ -76,9 +76,7 @@ public class WalkNode implements PathNode {
 
     @Override
     public boolean hasPassed(APIProvider api) {
-        if (next == null)
-            return getTile().distance() <= 8;
-        return api.getDB().getMap().canReach(next.getTile());
+        return getTile().distance() < 8;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.dreambot.articron.api;
 
 import org.dreambot.api.script.AbstractScript;
+import org.dreambot.articron.api.antiban.AntibanController;
 import org.dreambot.articron.api.controller.impl.node.NodeController;
 import org.dreambot.articron.api.util.ScriptUtil;
 import org.dreambot.articron.api.util.traversal.CustomPath;
@@ -13,12 +14,14 @@ public class APIProvider {
     private CustomPath obeliskPath;
     private ScriptUtil util;
     private PaintManager paintManager;
+    private AntibanController antibanController;
 
     public APIProvider(AbstractScript script) {
         this.script = script;
         this.nodeController = new NodeController();
         this.util = new ScriptUtil(this);
         this.paintManager = new PaintManager(this);
+        this.antibanController = new AntibanController(this, getDB().getClient().seededRandom());
     }
 
     public AbstractScript getDB() {
@@ -43,5 +46,9 @@ public class APIProvider {
 
     public PaintManager getPaintManager() {
         return paintManager;
+    }
+
+    public AntibanController getAntibanController() {
+        return antibanController;
     }
 }

@@ -65,7 +65,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
 
                     @Override
                     public boolean hasPassed(APIProvider api) {
-                        return getGameObjects().getTopObjectOnTile(getNext().getTile()).isOnScreen() ||
+                        return getMap().isTileOnMap(getNext().getTile()) ||
                                 getNext().getTile().distance() < 10;
                     }
 

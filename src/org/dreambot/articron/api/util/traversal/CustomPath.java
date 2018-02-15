@@ -47,7 +47,7 @@ public class CustomPath {
             (o1, o2) -> (int) (o1.getTile().distance() - o2.getTile().distance());
 
 
-    private PathNode getNext() {
+    public PathNode getNext() {
         List<PathNode> sorted = this.path;
         sorted.sort(nodeComparator);
         PathNode closest = sorted.get(0);

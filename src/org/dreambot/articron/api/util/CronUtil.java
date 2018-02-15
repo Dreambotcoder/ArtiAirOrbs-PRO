@@ -45,7 +45,5 @@ public class CronUtil {
         return percent > 100 ? 100 : percent;
     }
 
-    public static int getFatiguedSleep(int range) {
-        return (int) Math.ceil(range * (AntibanController.FATIGUE / 100));
-    }
+
 }
