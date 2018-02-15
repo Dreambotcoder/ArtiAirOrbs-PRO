@@ -1,5 +1,8 @@
-package org.dreambot.articron.api.util.pking;
+package org.dreambot.articron.api.util.antipk;
 
+import org.dreambot.api.methods.filter.Filter;
+import org.dreambot.api.wrappers.interactive.Player;
+import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
 
 import java.util.*;
@@ -9,6 +12,9 @@ import java.util.concurrent.locks.ReentrantLock;
 public class AntiPkController {
 
     private final Lock LOCK = new ReentrantLock();
+
+    private final int WILD_PARENT = 90;
+    private final int WILD_LEVEL_CHILD = 46;
 
     private Set<PlayerKiller> pkers;
     private PKObserver observer;
@@ -24,6 +30,28 @@ public class AntiPkController {
         LOCK.lock();
         this.pkers.add(pker);
         LOCK.unlock();
+    }
+
+     public boolean isInWild() {
+        WidgetChild c = api.getDB().getWidgets().getWidgetChild(WILD_PARENT, WILD_LEVEL_CHILD);
+        return c != null && c.getText().contains("Level");
+    }
+
+    public int getWildernessLevel() {
+        if (!isInWild())
+            return -1;
+        WidgetChild c = api.getDB().getWidgets().getWidgetChild(WILD_PARENT, WILD_LEVEL_CHILD);
+        return Integer.parseInt(c.getText().replace("Level: ",""));
+    }
+
+    protected Filter<Player> getKillerFilter() {
+        return player -> {
+            if (player.getName().equals(api.getDB().getLocalPlayer().getName()))
+                return false;
+            int min = api.getDB().getLocalPlayer().getLevel() - getWildernessLevel();
+            int max = api.getDB().getLocalPlayer().getLevel() + getWildernessLevel();
+            return player.getLevel() >= min && player.getLevel() <= max;
+        };
     }
 
     public List<Integer> getBadWorlds() {

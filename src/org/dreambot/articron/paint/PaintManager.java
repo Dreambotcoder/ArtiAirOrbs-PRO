@@ -44,7 +44,7 @@ public class PaintManager {
         g.drawString("Orbs P/H: " + timer.getHourlyRate(CronUtil.ORBS_CREATED), x, 110);
         g.drawString("Magic XP gained: " + api.getDB().getSkillTracker().getGainedExperience(Skill.MAGIC), x, 130);
         g.drawString("Exp /H: " + api.getDB().getSkillTracker().getGainedExperiencePerHour(Skill.MAGIC), x, 150);
-        g.drawString("Wild level: " + api.getUtil().getWildernessLevel(), x, 170);
+        g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
         //g.drawString("Bank set: " + CronUtil.BANKSET, x, 170);
         //g.drawString("Walking node: " + CronUtil.CURRENT_NODE.toString(), x, 170);
 

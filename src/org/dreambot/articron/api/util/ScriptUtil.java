@@ -4,7 +4,6 @@ import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
-import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
@@ -12,8 +11,7 @@ import org.dreambot.articron.api.util.banking.BankManager;
 import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.api.util.concurrency.ChargeChecker;
 import org.dreambot.articron.api.util.makeWidget.MakeHandler;
-import org.dreambot.articron.api.util.pking.AntiPkController;
-import org.dreambot.articron.api.util.pking.PKObserver;
+import org.dreambot.articron.api.util.antipk.AntiPkController;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,8 +19,6 @@ import java.util.concurrent.Executors;
 public class ScriptUtil {
 
     private final int OBELISK_ID = 2152;
-    private final int WILD_PARENT = 90;
-    private final int WILD_LEVEL_CHILD = 46;
 
 
     private APIProvider api;
@@ -66,7 +62,8 @@ public class ScriptUtil {
     }
 
     public boolean shouldTeleport() {
-        return (!api.getDB().getInventory().contains("Cosmic rune") || !api.getDB().getInventory().contains("Unpowered orb"));
+        return (!api.getDB().getInventory().contains("Cosmic rune") || !api.getDB().getInventory().contains("Unpowered orb"))
+                || api.getUtil().getAntiPkController().pkerExists();
     }
 
     public boolean gettingHit() {
@@ -90,17 +87,6 @@ public class ScriptUtil {
         return ((api.getDB().getPlayerSettings().getConfig(638) >> 19) & 0b1) == 1;
     }
 
-    public boolean isInWild() {
-        WidgetChild c = api.getDB().getWidgets().getWidgetChild(WILD_PARENT, WILD_LEVEL_CHILD);
-        return c != null && c.getText().contains("Level");
-    }
-
-    public int getWildernessLevel() {
-        if (!isInWild())
-            return -1;
-        WidgetChild c = api.getDB().getWidgets().getWidgetChild(WILD_PARENT, WILD_LEVEL_CHILD);
-        return Integer.parseInt(c.getText().replace("Level: ",""));
-    }
 
     public boolean shouldBank() {
         ItemSet set = api.getUtil().getBankManager().getValidSet();
@@ -137,14 +123,6 @@ public class ScriptUtil {
 
     public void setEatingThreshold(int eatThreshold) {
         this.eatThreshold = eatThreshold;
-    }
-
-    public boolean canBeAttackedBy(Player player) {
-        if (getWildernessLevel() == -1)
-            return false;
-        int min = api.getDB().getLocalPlayer().getLevel() - getWildernessLevel();
-        int max = api.getDB().getLocalPlayer().getLevel() + getWildernessLevel();
-        return player.getLevel() >= min && player.getLevel() <= max;
     }
 
     public boolean hasLowHP() {

@@ -24,7 +24,7 @@ public class OpenBank extends Node {
     public int onLoop(APIProvider api) {
         if (api.getDB().getBank().open()) {
             NPC banker = api.getDB().getNpcs().closest("Banker");
-                MethodProvider.sleepUntil(() -> api.getDB().getBank().isOpen(), banker != null ? (long) banker.distance() * 600 : 3000);
+                MethodProvider.sleepUntil(() -> api.getDB().getBank().isOpen(), banker != null ? (long) banker.distance() * 600 : 5000);
         }
         return CronUtil.BASE_SLEEP;
     }

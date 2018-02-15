@@ -1,4 +1,4 @@
-package org.dreambot.articron.api.util.pking;
+package org.dreambot.articron.api.util.antipk;
 
 public class PlayerKiller {
 
