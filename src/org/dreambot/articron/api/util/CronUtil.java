@@ -3,6 +3,8 @@ package org.dreambot.articron.api.util;
 
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.articron.api.antiban.AbstractAntiban;
+import org.dreambot.articron.api.antiban.AntibanController;
 import org.dreambot.articron.api.util.traversal.PathNode;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class CronUtil {
     public static final int DEFAULT_ZOOM = 512;
     public static final Area BANK_AREA ;
     public static PathNode CURRENT_NODE;
+    public static String BANKSET = "";
 
     public static int ORBS_CREATED = 0;
 
@@ -40,5 +43,9 @@ public class CronUtil {
     public static int getPercentage(int part, int total) {
         int percent = (( part * 100) / total);
         return percent > 100 ? 100 : percent;
+    }
+
+    public static int getFatiguedSleep(int range) {
+        return (int) Math.ceil(range * (AntibanController.FATIGUE / 100));
     }
 }

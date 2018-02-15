@@ -8,6 +8,7 @@ import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.banking.BankManager;
+import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.api.util.concurrency.ChargeChecker;
 import org.dreambot.articron.api.util.makeWidget.MakeHandler;
 
@@ -41,7 +42,7 @@ public class ScriptUtil {
         return demon != null && demon.distance() <= 7;
     }
 
-    public boolean hasGlory() {
+    public boolean hasTeleport() {
         Item ammy = api.getDB().getEquipment().getItemInSlot(EquipmentSlot.AMULET.getSlot());
         return ammy != null && ammy.getName().contains("Amulet of glory") && !ammy.getName().equals("Amulet of glory");
     }
@@ -82,7 +83,8 @@ public class ScriptUtil {
 
 
     public boolean shouldBank() {
-        return (!api.getUtil().getBankManager().hasAllItems())
+        ItemSet set = api.getUtil().getBankManager().getValidSet();
+        return set != null && set.hasNext()
          && CronUtil.BANK_AREA.contains(api.getDB().getLocalPlayer());
     }
 
@@ -92,6 +94,10 @@ public class ScriptUtil {
         this.executor.submit(this.checker);
     }
 
+    public boolean hasStaff() {
+        Item t = api.getDB().getEquipment().getItemInSlot(EquipmentSlot.WEAPON.getSlot());
+        return t != null && t.getName().contains("Staff");
+    }
     public boolean isCharging() {
         return checker != null && checker.isCharging();
     }

@@ -1,7 +1,6 @@
 package org.dreambot.articron.api.util.traversal;
 
 import org.dreambot.articron.api.APIProvider;
-import org.dreambot.articron.api.util.CronUtil;
 import org.dreambot.articron.api.util.conditional.SupplierGroup;
 
 import java.util.*;
@@ -32,9 +31,9 @@ public class CustomPath {
         path.clear();
     }
 
-    public List<PathNode> getPath() {
+    /*public List<PathNode> getPath() {
         return path;
-    }
+    }*/
 
     public CustomPath reverse() {
         CustomPath reversed = new CustomPath(context,stopConditions);
@@ -47,29 +46,20 @@ public class CustomPath {
     private Comparator<PathNode> nodeComparator =
             (o1, o2) -> (int) (o1.getTile().distance() - o2.getTile().distance());
 
-    public boolean traverse() {
+
+    private PathNode getNext() {
         List<PathNode> sorted = this.path;
         sorted.sort(nodeComparator);
         PathNode closest = sorted.get(0);
-        while (closest != null && context.getDB().getClient().getInstance().getScriptManager().isRunning() && !context.getUtil().atObelisk()) {
-            try {
-                if (stopConditions.getAsBoolean()) {
-                    break;
-                }
-
-                while (closest.hasPassed(context)) {
-                    closest = closest.getNext();
-                }
-
-                CronUtil.CURRENT_NODE = closest;
-                if (!closest.traverse(context, stopConditions)) {
-                    break;
-                }
-            } catch (NullPointerException e) {
-                break;
-            }
+        while (closest != null && closest.hasPassed(context)) {
+            closest = closest.getNext();
         }
-        return true;
+        return closest;
+    }
+
+    public boolean traverse() {
+        PathNode next = getNext();
+        return next != null && next.traverse(context);
     }
 
 

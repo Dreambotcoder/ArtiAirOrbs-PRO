@@ -8,20 +8,24 @@ import org.dreambot.articron.api.util.CronUtil;
 
 import java.util.function.BooleanSupplier;
 
-public class DepositOrbs extends Node {
+public class DepositTask extends Node {
 
-    public DepositOrbs(BooleanSupplier condition) {
+    public DepositTask(BooleanSupplier condition) {
         super(condition);
     }
 
     @Override
     public String getStatus() {
-        return "Depositing orbs";
+        return "Depositing items";
     }
 
     @Override
     public int onLoop(APIProvider api) {
-        int count = api.getDB().getInventory().getEmptySlots();
+        int count = api.getUtil().getBankManager().realCount();
+        if (api.getUtil().getBankManager().getValidSet().deposit()) {
+            MethodProvider.sleepUntil(() -> count != api.getUtil().getBankManager().realCount(), 1200);
+        }
+       /** int count = api.getDB().getInventory().getEmptySlots();
         Item toDeposit =
                 api.getDB().getInventory().get(item -> item != null && !api.getUtil().getBankManager().getItemNames().contains(item.getName()));
         if (toDeposit != null) {
@@ -35,7 +39,7 @@ public class DepositOrbs extends Node {
                         MethodProvider.sleepUntil(() -> count != api.getDB().getInventory().getEmptySlots(), 1200);
                     }
             }
-        }
+        }**/
         return CronUtil.BASE_SLEEP;
     }
 }

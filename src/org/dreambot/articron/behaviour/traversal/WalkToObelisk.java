@@ -20,7 +20,7 @@ public class WalkToObelisk extends Node{
     @Override
     public int onLoop(APIProvider api) {
         if (api.getObeliskPath().traverse()) {
-            return 0;
+            return 600;
         }
         return CronUtil.BASE_SLEEP;
     }

@@ -57,6 +57,12 @@ public class WalkNode implements PathNode {
     public boolean traverse(APIProvider api, SupplierGroup stopConditions) {
         if (hasPassed(api))
             return true;
+        Tile dest = api.getDB().getClient().getDestination();
+        if (dest != null &&  dest.distance(tile) < 3) {
+            return true;
+        }
+        if (stopConditions.getAsBoolean())
+            return true;
         if (api.getDB().getWalking().walk(tile.getRandomizedTile(getMaxRadius()))) {
             // MethodProvider.sleep(600);
             Tile t = api.getDB().getClient().getDestination();

@@ -20,11 +20,11 @@ public class WithdrawAction extends Node {
 
     @Override
     public int onLoop(APIProvider api) {
-        while (!api.getUtil().getBankManager().hasAllItems()) {
+        while (api.getUtil().getBankManager().getValidSet().hasNext()) {
             int count = api.getUtil().getBankManager().realCount();
-            if (api.getUtil().getBankManager().withdrawNext()) {
-                MethodProvider.sleepUntil(() -> count != api.getUtil().getBankManager().realCount(), 3000);
-            }
+           if (api.getUtil().getBankManager().getValidSet().solveNext()) {
+               MethodProvider.sleepUntil(() -> count != api.getUtil().getBankManager().realCount(), 5000);
+           }
         }
         return CronUtil.BASE_SLEEP;
     }

@@ -1,32 +1,28 @@
-package org.dreambot.articron.behaviour.misc;
+package org.dreambot.articron.behaviour.emergency;
 
 import org.dreambot.api.methods.MethodProvider;
+import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.Node;
 import org.dreambot.articron.api.util.CronUtil;
 
-import java.util.Arrays;
 import java.util.function.BooleanSupplier;
 
-public class WearItem extends Node {
+public class EatFood extends Node {
 
-    private String[] itemNames;
-
-    public WearItem(BooleanSupplier condition, String... items) {
+    public EatFood(BooleanSupplier condition) {
         super(condition);
-        this.itemNames = items;
     }
 
     @Override
     public String getStatus() {
-        return "Equipping item";
+        return "Eating food";
     }
 
     @Override
     public int onLoop(APIProvider api) {
-       // MethodProvider.log(Arrays.toString(itemNames));
 
 
         if (!api.getDB().getTabs().isOpen(Tab.INVENTORY)) {
@@ -34,12 +30,16 @@ public class WearItem extends Node {
                 MethodProvider.sleepUntil(() -> api.getDB().getTabs().isOpen(Tab.INVENTORY), 600);
             }
         }
-            Item item = api.getDB().getInventory().getRandom(itemNames);
-        if (item != null) {
-            int slot = item.getSlot();
-            if (item.interact()) {
-                MethodProvider.sleepUntil(() -> api.getDB().getInventory().getIdForSlot(slot) != item.getID(), 5000);
+        int hp = api.getDB().getSkills().getBoostedLevels(Skill.HITPOINTS);
+        while (hp < api.getDB().getSkills().getRealLevel(Skill.HITPOINTS)) {
+            Item food = api.getDB().getInventory().get("Lobster");
+            if (food == null)
+                break;
+            if (food.interact("Eat")) {
+                int finalHp = hp;
+                MethodProvider.sleepUntil(() -> finalHp != api.getDB().getSkills().getBoostedLevels(Skill.HITPOINTS), 1200);
             }
+            hp = api.getDB().getSkills().getBoostedLevels(Skill.HITPOINTS);
         }
         return CronUtil.BASE_SLEEP;
     }
