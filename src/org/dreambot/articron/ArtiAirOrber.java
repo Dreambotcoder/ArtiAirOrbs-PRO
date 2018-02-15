@@ -53,14 +53,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         String[] glories = CronUtil.createNumericStrings("Amulet of glory(%s)",1,6);
         api = new APIProvider(this);
         CustomPath obeliskPath = PathFactory.createPath(api,
-                new SupplierGroup().put(
-                        () -> api.getUtil().shouldPot(),
-                        () -> api.getUtil().shouldTeleport(),
-                        () -> api.getUtil().wildyWidgetOpen(),
-                        () -> api.getUtil().shouldPray() && !api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE),
-                        () -> api.getUtil().atObelisk(),
-                        () -> api.getUtil().hasLowHP()
-                ),
+                new SupplierGroup(),
                 new WalkNode(3094,3470) {
 
                     @Override
@@ -197,6 +190,9 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                 new DefaultZoom(
                         () -> getClientSettings().getExactZoomValue() != CronUtil.DEFAULT_ZOOM
                 ),
+                new HopWorld(
+                        () -> CronUtil.BANK_AREA.contains(getLocalPlayer()) && api.getUtil().getAntiPkController().shouldHop()
+                ),
                 new EatTree(() ->api.getUtil().hasLowHP()).addChildren(
                         new GloryTele(() -> !CronUtil.BANK_AREA.contains(getLocalPlayer())),
                         new OpenBank(() -> !getBank().isOpen() && !getInventory().contains(item -> item != null && item.hasAction("Eat"))),
@@ -253,11 +249,17 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                 )
         );
         getWalking().setRunThreshold(api.getUtil().getPotThreshold());
+        api.getUtil().getAntiPkController().getObserver().start();
     }
 
     @Override
     public int onLoop() {
         return api.getNodeController().onLoop(api);
+    }
+
+    @Override
+    public void onExit() {
+        api.getUtil().getAntiPkController().getObserver().stop();
     }
 
     @Override

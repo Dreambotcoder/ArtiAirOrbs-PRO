@@ -69,7 +69,7 @@ public class ObjectNode implements PathNode {
         if (hasPassed(api))
             return true;
         if (api.getDB().getMap().isTileOnMap(objectLoc)) {
-            if (api.getDB().getCamera().rotateToTile(objectLoc)) {
+            if (api.getDB().getMap().isTileOnScreen(objectLoc) || api.getDB().getCamera().rotateToTile(objectLoc)) {
                 if (exists(api)) {
                     return getObject(api).interact(action)
                             && MethodProvider.sleepUntil(() -> {
