@@ -58,6 +58,7 @@ public class PaintManager {
         g.drawString("Exp /H: " + api.getDB().getSkillTracker().getGainedExperiencePerHour(Skill.MAGIC), x, 350);
 
         g.drawString("Blacklisted Pkers: " + api.getUtil().getAntiPkController().getPkerCount(), x, 390);
+        g.drawString("Cache: " + api.getUtil().getBankManager().getCache().toString(), 30, 30);
        // g.drawString("GameState: " + api.getDB().getClient().getGameState().name(), x, 170);
         ///g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
        // g.drawString("Bank set: " + CronConstants.BANKSET, x, 170);

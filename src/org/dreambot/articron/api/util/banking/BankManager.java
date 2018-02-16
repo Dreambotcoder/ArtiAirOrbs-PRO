@@ -9,11 +9,13 @@ import java.util.*;
 public class BankManager {
 
     private APIProvider api;
+    private BankCache cache;
     private Map<String,ItemSet> bankCases;
 
     public BankManager(APIProvider api) {
         this.api = api;
         bankCases = new HashMap<>();
+        this.cache = new BankCache(api);
     }
 
     public ItemSet getSet(String name) {
@@ -34,6 +36,9 @@ public class BankManager {
         return null;
     }
 
+    public BankCache getCache() {
+        return cache;
+    }
 
     public int realCount() {
         int count = 0;

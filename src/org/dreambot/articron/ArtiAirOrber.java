@@ -185,6 +185,9 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         api.getUtil().getBankManager().getSet("no_glory").addItem(
                 "Unpowered orb", 26
         );
+        api.getUtil().getBankManager().getCache().trackItem("Unpowered orb");
+        api.getUtil().getBankManager().getCache().trackItem("Cosmic rune");
+        api.getUtil().getBankManager().getCache().setTracked(true);
         api.getNodeController().setMode(ScriptMode.WORK);
         getWalking().setRunThreshold(api.getUtil().getPotThreshold());
         api.getUtil().getAntiPkController().getObserver().start();
@@ -199,6 +202,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
     public void onExit() {
         api.getUtil().getAntiPkController().getObserver().stop();
         getClient().getInstance().setDrawMouse(true);
+        api.getUtil().getBankManager().getCache().setTracked(false);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class WorkMode implements NodeLoader {
                         () -> !api.getDB().getLocalPlayer().isInCombat() && api.getUtil().getAntiPkController().shouldHop()
                         && !api.getUtil().getMakeHandler().isOpen()
                 ),
-                new EatTree(() ->api.getUtil().hasLowHP()).addChildren(
+                new BankTree(() ->api.getUtil().hasLowHP()).addChildren(
                         new GloryTele(() -> !CronConstants.BANK_AREA.contains(api.getDB().getLocalPlayer())),
                         new OpenBank(() -> !api.getDB().getBank().isOpen() && !api.getDB().getInventory().contains(item -> item != null && item.hasAction("Eat"))),
                         new DepositTask(() -> api.getDB().getBank().isOpen() && api.getUtil().getBankManager().shouldDeposit()),

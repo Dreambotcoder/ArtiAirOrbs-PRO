@@ -21,6 +21,9 @@ public class CloseBank extends Node {
 
     @Override
     public int onLoop(APIProvider api) {
+        if (api.getUtil().getBankManager().getCache().isTracking()) {
+            api.getUtil().getBankManager().getCache().update();
+        }
         if (api.getDB().getBank().close()) {
             MethodProvider.sleepUntil(() -> !api.getDB().getBank().isOpen(),600);
         }
