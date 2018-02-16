@@ -13,7 +13,7 @@ public class BankCache {
 
     private boolean track;
 
-    public BankCache(APIProvider api) {
+    BankCache(APIProvider api) {
         this.api = api;
         this.cache = new HashMap<>();
         track = false;
