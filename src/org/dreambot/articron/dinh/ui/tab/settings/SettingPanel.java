@@ -2,6 +2,7 @@ package org.dreambot.articron.dinh.ui.tab.settings;
 
 import org.dreambot.articron.dinh.swing.HFrame;
 import org.dreambot.articron.dinh.swing.HPanel;
+import org.dreambot.articron.dinh.swing.child.HCheckBox;
 import org.dreambot.articron.dinh.swing.child.HImageComboBox;
 import org.dreambot.articron.dinh.swing.special.DisplayObject;
 import org.dreambot.articron.dinh.ui.tab.settings.sub.MainSettings;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 
 /**
  * Created by: Niklas
@@ -38,6 +40,17 @@ public class SettingPanel extends HPanel {
             mainSettings.getMandatorySettings().getFoodSelection().updateHeal(object.getId());
             mainSettings.getOtherSettings().getExchangePanel().updateFood(object.getId());
             mainSettings.getOtherSettings().getExchangePanel().get()[4].getPrice().update(object.getId());
+        });
+
+        HCheckBox checkBox = getTeleportSettings().getTeleportPanel().getArray()[0];
+        checkBox.addItemListener(listener -> {
+            if (listener.getStateChange() == ItemEvent.SELECTED) {
+                mainSettings.getOtherSettings().getExchangePanel().get()[3].update(11978);
+                mainSettings.getOtherSettings().getExchangePanel().get()[3].getPrice().update(11978);
+            } else {
+                mainSettings.getOtherSettings().getExchangePanel().get()[3].update(8013);
+                mainSettings.getOtherSettings().getExchangePanel().get()[3].getPrice().update(8013);
+            }
         });
     }
 

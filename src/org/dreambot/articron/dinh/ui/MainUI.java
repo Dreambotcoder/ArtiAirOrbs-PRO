@@ -25,7 +25,7 @@ public class MainUI extends HFrame {
         tabbedPane.addTab("Info", informationPanel = new InformationPanel(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), this));
         tabbedPane.addTab("Settings", settingPanel = new SettingPanel(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), new EmptyBorder(5, 5, 5, 5))));
 
-        contentPane.setPreferredSize(new Dimension(600, 350));
+        contentPane.setPreferredSize(new Dimension(670, 350));
         prepare(null);
 
     }

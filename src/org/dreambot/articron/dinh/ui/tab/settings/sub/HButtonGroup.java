@@ -36,4 +36,8 @@ public class HButtonGroup extends HPanel {
     public Optional<HCheckBox> getOption() {
         return Arrays.stream(array).filter(HCheckBox::isSelected).findAny();
     }
+
+    public HCheckBox[] getArray() {
+        return array;
+    }
 }

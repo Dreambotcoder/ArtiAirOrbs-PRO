@@ -4,6 +4,7 @@ import org.dreambot.articron.dinh.swing.HFrame;
 import org.dreambot.articron.dinh.swing.HPanel;
 import org.dreambot.articron.net.PriceCheck;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -26,16 +27,18 @@ public class HHintPriceTextField extends HPanel {
             if (textField.getText().matches("[0-9]+")) {
                 textField.setText(String.valueOf((int) Math.floor(Integer.parseInt(textField.getText()) * 0.95)));
             }
-        }, new Dimension(10, height));
+        }, new Dimension(8, height));
         minus.setBorder(null);
+        minus.setHorizontalAlignment(JTextField.CENTER);
         add(minus, BorderLayout.WEST);
 
         HButton plus = new HButton("+", listener -> {
             if (textField.getText().matches("[0-9]+")) {
                 textField.setText(String.valueOf((int) Math.ceil(Integer.parseInt(textField.getText()) * 1.05)));
             }
-        }, new Dimension(10, height));
+        }, new Dimension(8, height));
         plus.setBorder(null);
+        plus.setHorizontalAlignment(JTextField.CENTER);
         add(plus, BorderLayout.EAST);
 
         new Thread(() -> textField.setText(String.valueOf(PriceCheck.getPrice(id)))).start();
