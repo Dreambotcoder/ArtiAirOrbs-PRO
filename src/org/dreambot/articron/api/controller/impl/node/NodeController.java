@@ -40,6 +40,7 @@ public class NodeController  {
                 loader.load(this,api);
             }
         }
+        CronConstants.SCRIPT_MODE = mode;
     }
 
     public void remove(String... elements) {

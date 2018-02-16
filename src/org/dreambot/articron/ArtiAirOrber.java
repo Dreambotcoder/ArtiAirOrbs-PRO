@@ -31,6 +31,12 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
     @Override
     public void onPaint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+       // g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+       // g2.setRenderingHint(RenderingHints.KEY_TEXT_LCD_CONTRAST, 100);
+        g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
         if (api.getPaintManager() != null) {
             api.getPaintManager().onPaint(g2);
 
@@ -192,6 +198,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
     @Override
     public void onExit() {
         api.getUtil().getAntiPkController().getObserver().stop();
+        getClient().getInstance().setDrawMouse(true);
     }
 
     @Override

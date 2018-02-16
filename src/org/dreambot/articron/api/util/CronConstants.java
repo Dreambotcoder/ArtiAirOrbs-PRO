@@ -6,6 +6,7 @@ import org.dreambot.api.methods.map.Tile;
 import org.dreambot.articron.api.antiban.AbstractAntiban;
 import org.dreambot.articron.api.antiban.AntibanController;
 import org.dreambot.articron.api.util.traversal.PathNode;
+import org.dreambot.articron.data.ScriptMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ public class CronConstants {
 
     public static final int WILDERNESS_LEVEL_MAIN = 90;
     public static final int WILDERNESS_LEVEL_CHILD = 46;
+
+    public static ScriptMode SCRIPT_MODE = null;
 
 
     public static int ORBS_CREATED = 0;

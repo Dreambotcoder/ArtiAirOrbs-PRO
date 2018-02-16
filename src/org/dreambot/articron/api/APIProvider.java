@@ -1,6 +1,7 @@
 package org.dreambot.articron.api;
 
 import org.dreambot.api.script.AbstractScript;
+import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.articron.api.antiban.AntibanController;
 import org.dreambot.articron.api.controller.impl.node.NodeController;
 import org.dreambot.articron.api.util.ScriptUtil;
@@ -26,6 +27,10 @@ public class APIProvider {
 
     public AbstractScript getDB() {
         return script;
+    }
+
+    public ScriptManifest getManifest() {
+        return script.getManifest();
     }
 
     public NodeController getNodeController() {

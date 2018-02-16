@@ -54,6 +54,10 @@ public class AntiPkController {
         };
     }
 
+    public int getPkerCount() {
+        return pkers.size();
+    }
+
     public List<Integer> getBadWorlds() {
         LOCK.lock();
         Set<Integer> worlds = new HashSet<>();
