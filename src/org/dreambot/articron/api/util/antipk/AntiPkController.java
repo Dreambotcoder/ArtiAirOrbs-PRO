@@ -4,6 +4,7 @@ import org.dreambot.api.methods.filter.Filter;
 import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.util.*;
 import java.util.concurrent.locks.Lock;
@@ -13,8 +14,6 @@ public class AntiPkController {
 
     private final Lock LOCK = new ReentrantLock();
 
-    private final int WILD_PARENT = 90;
-    private final int WILD_LEVEL_CHILD = 46;
 
     private Set<PlayerKiller> pkers;
     private PKObserver observer;
@@ -33,14 +32,15 @@ public class AntiPkController {
     }
 
      public boolean isInWild() {
-        WidgetChild c = api.getDB().getWidgets().getWidgetChild(WILD_PARENT, WILD_LEVEL_CHILD);
+        WidgetChild c = api.getDB().getWidgets().getWidgetChild(CronConstants.WILDERNESS_LEVEL_MAIN, CronConstants.WILDERNESS_LEVEL_CHILD);
         return c != null && c.getText().contains("Level");
     }
+
 
     public int getWildernessLevel() {
         if (!isInWild())
             return -1;
-        WidgetChild c = api.getDB().getWidgets().getWidgetChild(WILD_PARENT, WILD_LEVEL_CHILD);
+        WidgetChild c = api.getDB().getWidgets().getWidgetChild(CronConstants.WILDERNESS_LEVEL_MAIN, CronConstants.WILDERNESS_LEVEL_CHILD);
         return Integer.parseInt(c.getText().replace("Level: ",""));
     }
 

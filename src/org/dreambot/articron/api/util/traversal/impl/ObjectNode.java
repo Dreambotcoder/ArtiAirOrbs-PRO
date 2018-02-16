@@ -11,7 +11,7 @@ public class ObjectNode implements PathNode {
 
     private Tile objectLoc;
     private String name, action;
-    private PathNode next;
+    private PathNode next = null;
 
     private Tile walkTile;
 

@@ -78,7 +78,7 @@ public class ScriptUtil {
     }
 
     public boolean wildyWidgetOpen() {
-        WidgetChild c = api.getDB().getWidgets().getWidgetChild(475, 11);
+        WidgetChild c = api.getDB().getWidgets().getWidgetChild(CronConstants.WILDERNESS_SCREEN_MAIN, CronConstants.ACCEPT_WILD_CHILD);
         return (c != null) && c.isVisible();
     }
     public MakeHandler getMakeHandler() {
@@ -93,7 +93,7 @@ public class ScriptUtil {
     public boolean shouldBank() {
         ItemSet set = api.getUtil().getBankManager().getValidSet();
         return set != null && set.hasNext()
-         && CronUtil.BANK_AREA.contains(api.getDB().getLocalPlayer());
+         && CronConstants.BANK_AREA.contains(api.getDB().getLocalPlayer());
     }
 
     public void startChargeChecker() {
@@ -130,7 +130,7 @@ public class ScriptUtil {
     public boolean hasLowHP() {
         int currentHP = api.getDB().getSkills().getBoostedLevels(Skill.HITPOINTS);
         int maxHP = api.getDB().getSkills().getRealLevel(Skill.HITPOINTS);
-        return CronUtil.getPercentage(currentHP,maxHP) <= eatThreshold;
+        return CronConstants.getPercentage(currentHP,maxHP) <= eatThreshold;
     }
 
     public int getEatingThreshold() {

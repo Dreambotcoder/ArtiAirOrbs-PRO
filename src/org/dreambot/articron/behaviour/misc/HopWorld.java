@@ -4,7 +4,7 @@ import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.world.World;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.Node;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.util.function.BooleanSupplier;
 
@@ -35,6 +35,6 @@ public class HopWorld extends Node{
         if (api.getDB().getWorldHopper().hopWorld(rand)) {
             MethodProvider.sleepUntil(() -> api.getDB().getClient().getCurrentWorld() == rand.getID(), 10000);
         }
-        return CronUtil.BASE_SLEEP;
+        return CronConstants.BASE_SLEEP;
     }
 }

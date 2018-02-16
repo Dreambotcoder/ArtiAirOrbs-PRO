@@ -28,9 +28,9 @@ public class TeleportSettings extends HPanel {
         constraints.gridwidth = GridBagConstraints.REMAINDER;
         constraints.weighty = 1;
 
-        add(teleportPanel = new HButtonGroup(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Amulet of Glory", "Player owned House"), constraints);
-        add(teleportOptions = new HButtons(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Teleport on Skulled Player", "Teleport before Teleblock"), constraints);
-        add(selection = new TeleportSelection(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), JSlider.HORIZONTAL, 0, 100, 90), constraints);
+        add(teleportPanel = new HButtonGroup(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Amulet of Glory", "POH tablet"), constraints);
+        add(teleportOptions = new HButtons(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Stamina potions", "Teleport when attacked", "Stop without supplies"), constraints);
+        add(selection = new TeleportSelection(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), JSlider.HORIZONTAL, 0, 100, 30), constraints);
     }
 
     public HButtons getTeleportOptions() {

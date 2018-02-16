@@ -5,7 +5,7 @@ import org.dreambot.api.methods.magic.Normal;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.Node;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.util.function.BooleanSupplier;
 
@@ -29,6 +29,6 @@ public class MakeOrbs extends Node {
                 MethodProvider.sleepUntil(() -> api.getUtil().getMakeHandler().isOpen(), 2000);
             }
         }
-        return CronUtil.BASE_SLEEP;
+        return CronConstants.BASE_SLEEP;
     }
 }

@@ -3,7 +3,7 @@ package org.dreambot.articron.paint;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.utilities.Timer;
 import org.dreambot.articron.api.APIProvider;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.awt.*;
 
@@ -47,14 +47,14 @@ public class PaintManager {
 
         g.setColor(Color.WHITE);
         g.drawString("Time running: " + timer.formatTime(), x,50);
-        g.drawString("Orbs made: " + CronUtil.ORBS_CREATED, x,90);
-        g.drawString("Orbs P/H: " + timer.getHourlyRate(CronUtil.ORBS_CREATED), x, 110);
+        g.drawString("Orbs made: " + CronConstants.ORBS_CREATED, x,90);
+        g.drawString("Orbs P/H: " + timer.getHourlyRate(CronConstants.ORBS_CREATED), x, 110);
         g.drawString("Magic XP gained: " + api.getDB().getSkillTracker().getGainedExperience(Skill.MAGIC), x, 130);
         g.drawString("Exp /H: " + api.getDB().getSkillTracker().getGainedExperiencePerHour(Skill.MAGIC), x, 150);
        // g.drawString("GameState: " + api.getDB().getClient().getGameState().name(), x, 170);
         ///g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
-       // g.drawString("Bank set: " + CronUtil.BANKSET, x, 170);
-        //g.drawString("Walking node: " + CronUtil.CURRENT_NODE.toString(), x, 170);
+       // g.drawString("Bank set: " + CronConstants.BANKSET, x, 170);
+        //g.drawString("Walking node: " + CronConstants.CURRENT_NODE.toString(), x, 170);
 
         //g.drawString("Zoom: " + api.getDB().getClientSettings().getExactZoomValue(), 30,110);
 

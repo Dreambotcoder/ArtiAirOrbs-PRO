@@ -4,7 +4,7 @@ import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.Node;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.util.function.BooleanSupplier;
 
@@ -26,6 +26,6 @@ public class OpenBank extends Node {
             NPC banker = api.getDB().getNpcs().closest("Banker");
                 MethodProvider.sleepUntil(() -> api.getDB().getBank().isOpen(), banker != null ? (long) banker.distance() * 600 : 5000);
         }
-        return CronUtil.BASE_SLEEP;
+        return CronConstants.BASE_SLEEP;
     }
 }

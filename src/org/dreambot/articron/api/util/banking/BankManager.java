@@ -2,10 +2,9 @@ package org.dreambot.articron.api.util.banking;
 
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.util.*;
-import java.util.function.BooleanSupplier;
 
 public class BankManager {
 
@@ -28,7 +27,7 @@ public class BankManager {
     public ItemSet getValidSet() {
         for (Map.Entry<String,ItemSet> entry : bankCases.entrySet()) {
             if (entry.getValue().isValid()) {
-                CronUtil.BANKSET = entry.getKey();
+                CronConstants.BANKSET = entry.getKey();
                 return entry.getValue();
             }
         }

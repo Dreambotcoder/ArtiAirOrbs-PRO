@@ -9,7 +9,7 @@ public class WalkNode implements PathNode {
 
     private Tile tile;
 
-    private PathNode next;
+    private PathNode next = null;
 
     public WalkNode(int x, int y) {
         this(x, y, 0);

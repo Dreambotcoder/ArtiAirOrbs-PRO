@@ -1,7 +1,7 @@
 package org.dreambot.articron.api.controller.impl.node;
 
 import org.dreambot.articron.api.APIProvider;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +38,6 @@ public abstract class NodeTree extends Node {
                 return node.onLoop(api);
             }
         }
-        return CronUtil.BASE_SLEEP;
+        return CronConstants.BASE_SLEEP;
     }
 }

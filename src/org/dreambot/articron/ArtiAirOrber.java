@@ -1,7 +1,6 @@
 package org.dreambot.articron;
 
 import org.dreambot.api.methods.MethodProvider;
-import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.prayer.Prayer;
 import org.dreambot.api.script.AbstractScript;
@@ -12,7 +11,7 @@ import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.api.util.conditional.SupplierGroup;
 import org.dreambot.articron.api.util.traversal.CustomPath;
@@ -51,7 +50,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
     @Override
     public void onStart() {
         MethodProvider.log(""+getClient().seededRandom());
-        String[] glories = CronUtil.createNumericStrings("Amulet of glory(%s)",1,6);
+        String[] glories = CronConstants.createNumericStrings("Amulet of glory(%s)",1,6);
         api = new APIProvider(this);
         CustomPath obeliskPath = PathFactory.createPath(api,
                 new SupplierGroup(),
@@ -173,7 +172,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         !api.getUtil().hasLowHP()));
         api.getUtil().getBankManager().getSet("normal").addItem("Cosmic rune", 78);
         api.getUtil().getBankManager().getSet("normal").addItem("Stamina potion(4)", 1,
-                CronUtil.createNumericStrings("Stamina potion(%s)",1,4));
+                CronConstants.createNumericStrings("Stamina potion(%s)",1,4));
         api.getUtil().getBankManager().getSet("normal").addItem("Unpowered orb", 26);
         api.getUtil().getBankManager().setSet("no_glory", new ItemSet(api, () -> !api.getUtil().hasTeleport()
         && !api.getUtil().hasLowHP()));
@@ -181,7 +180,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                 "Cosmic rune", 78
         );
         api.getUtil().getBankManager().getSet("no_glory").addItem(
-                "Amulet of glory(6)", 1,CronUtil.createNumericStrings("Amulet of glory(%s)",1,5)
+                "Amulet of glory(6)", 1, CronConstants.createNumericStrings("Amulet of glory(%s)",1,5)
         );
         api.getUtil().getBankManager().getSet("no_glory").addItem(
                 "Unpowered orb", 26
@@ -190,13 +189,13 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         api.getNodeController().commit(
 
                 new DefaultZoom(
-                        () -> getClientSettings().getExactZoomValue() != CronUtil.DEFAULT_ZOOM
+                        () -> getClientSettings().getExactZoomValue() != CronConstants.DEFAULT_ZOOM
                 ),
                 new HopWorld(
                         () -> !getLocalPlayer().isInCombat() && api.getUtil().getAntiPkController().shouldHop()
                 ),
                 new EatTree(() ->api.getUtil().hasLowHP()).addChildren(
-                        new GloryTele(() -> !CronUtil.BANK_AREA.contains(getLocalPlayer())),
+                        new GloryTele(() -> !CronConstants.BANK_AREA.contains(getLocalPlayer())),
                         new OpenBank(() -> !getBank().isOpen() && !getInventory().contains(item -> item != null && item.hasAction("Eat"))),
                         new DepositTask(() -> getBank().isOpen() && api.getUtil().getBankManager().shouldDeposit()),
                         new WithdrawAction(() -> getBank().isOpen() && !getInventory().contains(item -> item != null && item.hasAction("Eat"))),
@@ -211,10 +210,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
 
                 ),
                 new ClickWildy(
-                        () -> {
-                            WidgetChild c = api.getDB().getWidgets().getWidgetChild(475, 11);
-                            return c != null && c.isVisible();
-                        }
+                        () ->  api.getUtil().wildyWidgetOpen()
                 ),
                 new CloseBank(() -> getBank().isOpen()),
 
@@ -222,7 +218,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         () -> api.getUtil().shouldPot() && !api.getUtil().atObelisk()
                 ),
                 new WearItem(() -> !api.getUtil().hasTeleport() && getInventory().contains(
-                        CronUtil.createNumericStrings("Amulet of glory(%s)",1,6)), glories),
+                        CronConstants.createNumericStrings("Amulet of glory(%s)",1,6)), glories),
 
                 new WearItem(
                         () -> !api.getUtil().hasStaff(), "Staff of air"
@@ -236,14 +232,14 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         () -> !api.getUtil().shouldPray() && api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
                 ),
                 new GloryTele(
-                        () -> api.getUtil().shouldTeleport() && !CronUtil.BANK_AREA.contains(getLocalPlayer())
+                        () -> api.getUtil().shouldTeleport() && !CronConstants.BANK_AREA.contains(getLocalPlayer())
                 ),
                 new WalkToObelisk(
                         () -> !api.getUtil().atObelisk() && !api.getUtil().shouldBank()
                 ),
                 new MakeOrbs(
                         () -> api.getUtil().atObelisk() && !api.getUtil().getMakeHandler().isOpen()
-                        && !api.getUtil().isCharging()
+                        && !api.getUtil().isCharging() && getInventory().contains("Unpowered orb")
                 ),
                 new MakeAction(
                         () -> api.getUtil().atObelisk() && api.getUtil().getMakeHandler().isOpen()
@@ -268,7 +264,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
     public void onItemChange(Item[] items) {
         for (Item item : items) {
             if (item.getName().equals("Air orb") && !getBank().isOpen()) {
-                CronUtil.ORBS_CREATED++;
+                CronConstants.ORBS_CREATED++;
             }
         }
     }

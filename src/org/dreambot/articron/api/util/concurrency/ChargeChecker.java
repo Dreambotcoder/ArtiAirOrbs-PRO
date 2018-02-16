@@ -1,7 +1,7 @@
 package org.dreambot.articron.api.util.concurrency;
 
 import org.dreambot.articron.api.APIProvider;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 
 public class ChargeChecker implements Runnable {
@@ -38,7 +38,7 @@ public class ChargeChecker implements Runnable {
                     return;
                 }
 
-                if (provider.getDB().getLocalPlayer().getAnimation() != CronUtil.CHARGE_ANIM) {
+                if (provider.getDB().getLocalPlayer().getAnimation() != CronConstants.CHARGE_ANIM) {
                     animCount++;
                 } else {
                     animCount = 0;
