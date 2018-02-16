@@ -55,8 +55,13 @@ public class HImageLoader {
     }
 
     public static BufferedImage loadSprite(int id) {
+        String information = String.valueOf(id);
+        if (id < 0) return ICON;
+        else if (images.containsKey(information)) return images.get(information);
         try {
-            return ImageIO.read(new URL("https://dinhware.org/sprite.php?id=" + id));
+            BufferedImage image = ImageIO.read(new URL("https://dinhware.org/sprite.php?id=" + id));
+            images.put(information, image);
+            return image;
         } catch (IOException e) {
             e.printStackTrace();
         }

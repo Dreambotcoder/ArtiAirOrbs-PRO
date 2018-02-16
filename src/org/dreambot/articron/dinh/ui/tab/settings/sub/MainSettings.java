@@ -1,6 +1,7 @@
 package org.dreambot.articron.dinh.ui.tab.settings.sub;
 
 import org.dreambot.articron.dinh.swing.HPanel;
+import org.dreambot.articron.dinh.swing.child.HCheckBox;
 import org.dreambot.articron.dinh.ui.tab.settings.SettingPanel;
 
 import javax.swing.border.Border;
@@ -18,11 +19,11 @@ public class MainSettings extends HPanel {
     private MandatorySettings mandatorySettings;
     private OtherSettings otherSettings;
 
-    public MainSettings(Border border) {
+    public MainSettings(HCheckBox box, Border border) {
         super(new GridLayout(0, 1), border);
 
         add(mandatorySettings = new MandatorySettings(SettingPanel.getBorder("Mandatory")));
-        add(otherSettings = new OtherSettings(SettingPanel.getBorder("Exchange")));
+        add(otherSettings = new OtherSettings(box, SettingPanel.getBorder("Exchange")));
     }
 
     public MandatorySettings getMandatorySettings() {

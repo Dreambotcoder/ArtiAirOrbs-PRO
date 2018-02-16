@@ -22,6 +22,7 @@ import java.awt.*;
 public class FoodSelection extends HPanel {
 
     private HImageComboBox<DisplayObject> foodBox;
+    private HLabel name, heal;
 
     public FoodSelection(Border border) {
         super(new BorderLayout(), border);
@@ -32,8 +33,8 @@ public class FoodSelection extends HPanel {
         }
 
         HPanel information = new HPanel(new GridLayout(0, 1));
-        HLabel name = new HLabel("Name: " + objects[0].toString());
-        HLabel heal = new HLabel("Heals: " + String.valueOf((int) Edible.find(objects[0].getId()).orElseThrow(() -> new RuntimeException("Failed to fetch object 0")).getHeal()));
+        name = new HLabel("Name: " + objects[0].toString());
+        heal = new HLabel("Heals: " + String.valueOf((int) Edible.find(objects[0].getId()).orElseThrow(() -> new RuntimeException("Failed to fetch object 0")).getHeal()));
 
         information.add(name);
         information.add(heal);
@@ -41,13 +42,18 @@ public class FoodSelection extends HPanel {
 
         add(foodBox = new HImageComboBox<>(objects), BorderLayout.SOUTH);
         foodBox.getEditor().setIcon(new ImageIcon(new RewardIcon(objects[0].getImage())));
-        foodBox.addActionListener(listener -> {
-            DisplayObject object = (DisplayObject) foodBox.getSelectedItem();
-            if (object == null) return;
-            foodBox.getEditor().setIcon(new ImageIcon((object.getImage())));
-            name.setText("Name: " + object.toString());
-            heal.setText("Heals: " + String.valueOf((int) Edible.find(object.getId()).orElseThrow(() -> new RuntimeException("Failed to fetch object 0")).getHeal()));
-        });
+    }
+
+    public HImageComboBox<DisplayObject> getFoodBox() {
+        return foodBox;
+    }
+
+    public void updateName(String name) {
+        this.name.setText("Name: " + name);
+    }
+
+    public void updateHeal(int id) {
+        this.heal.setText("Heals: " + String.valueOf((int) Edible.find(id).orElseThrow(() -> new RuntimeException("Failed to fetch object 0")).getHeal()));
     }
 
     public Edible getSelected() {

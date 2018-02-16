@@ -33,4 +33,8 @@ public class HButtons extends HPanel {
     public List<HCheckBox> getSelected() {
         return Arrays.stream(array).filter(HCheckBox::isSelected).collect(Collectors.toList());
     }
+
+    public HCheckBox get(int index) {
+        return array[index];
+    }
 }

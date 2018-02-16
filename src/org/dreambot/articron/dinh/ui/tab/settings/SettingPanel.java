@@ -2,6 +2,8 @@ package org.dreambot.articron.dinh.ui.tab.settings;
 
 import org.dreambot.articron.dinh.swing.HFrame;
 import org.dreambot.articron.dinh.swing.HPanel;
+import org.dreambot.articron.dinh.swing.child.HImageComboBox;
+import org.dreambot.articron.dinh.swing.special.DisplayObject;
 import org.dreambot.articron.dinh.ui.tab.settings.sub.MainSettings;
 import org.dreambot.articron.dinh.ui.tab.settings.sub.TeleportSettings;
 
@@ -24,8 +26,19 @@ public class SettingPanel extends HPanel {
 
     public SettingPanel(Border border) {
         super(new BorderLayout(), border);
-        add(mainSettings = new MainSettings(getBorder("Main")), BorderLayout.CENTER);
         add(teleportSettings = new TeleportSettings(getBorder("Teleport")), BorderLayout.EAST);
+        add(mainSettings = new MainSettings(teleportSettings.getTeleportOptions().get(2), getBorder("Main")), BorderLayout.CENTER);
+
+        HImageComboBox comboBox = mainSettings.getMandatorySettings().getFoodSelection().getFoodBox();
+        comboBox.addActionListener(listener -> {
+            DisplayObject object = (DisplayObject) comboBox.getSelectedItem();
+            if (object == null) return;
+            comboBox.getEditor().setIcon(new ImageIcon((object.getImage())));
+            mainSettings.getMandatorySettings().getFoodSelection().updateName(object.toString());
+            mainSettings.getMandatorySettings().getFoodSelection().updateHeal(object.getId());
+            mainSettings.getOtherSettings().getExchangePanel().updateFood(object.getId());
+            mainSettings.getOtherSettings().getExchangePanel().get()[4].getPrice().update(object.getId());
+        });
     }
 
     public static TitledBorder getBorder(String title) {

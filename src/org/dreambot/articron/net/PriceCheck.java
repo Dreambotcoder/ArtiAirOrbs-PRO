@@ -1,7 +1,6 @@
 package org.dreambot.articron.net;
 
 import org.dreambot.articron.net.json.Json;
-import org.dreambot.articron.net.json.JsonObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -11,7 +10,7 @@ import java.util.HashMap;
 public class PriceCheck {
 
     private static HashMap<Integer, Integer> priceMap;
-    private static HashMap<String,Integer> conversionMap;
+    private static HashMap<String, Integer> conversionMap;
 
     private static final String CONVERSION_URL = "https://dinhware.org/media/items.csv";
     private static final String PRICE_URL = "http://api.rsbuddy.com/grandExchange?a=guidePrice&i=";
@@ -26,10 +25,10 @@ public class PriceCheck {
         String priceString = Integer.toString(price);
         int size = priceString.length();
         StringBuilder builder = new StringBuilder(priceString);
-        if(size < 4)
+        if (size < 4)
             return priceString;
-        for (int i = size - 1; i >= 0; i-=4) {
-            builder.insert(size-i,",");
+        for (int i = size - 1; i >= 0; i -= 4) {
+            builder.insert(size - i, ",");
         }
         return builder.toString();
     }
@@ -42,7 +41,7 @@ public class PriceCheck {
             String in;
             while ((in = reader.readLine()) != null) {
                 String[] subs = in.split(",");
-                if(subs.length >= 2) {
+                if (subs.length >= 2) {
                     String itemName = subs[1];
                     int itemId = Integer.parseInt(subs[0]);
                     if (!conversionMap.containsKey(itemName)) {
@@ -83,7 +82,7 @@ public class PriceCheck {
             URL url = new URL(PRICE_URL + id);
             String json = readQuick(url.openConnection().getInputStream());
             int price = Json.parse(json).asObject().get("selling").asInt();
-            priceMap.put(id,price);
+            priceMap.put(id, price);
             return price;
         } catch (IOException e) {
             e.printStackTrace();
