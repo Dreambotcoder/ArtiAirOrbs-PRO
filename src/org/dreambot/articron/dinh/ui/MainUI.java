@@ -20,7 +20,7 @@ public class MainUI extends HFrame {
     public MainUI(String text, BufferedImage icon) {
         super(text, icon);
         JTabbedPane tabbedPane = new HTabbedPane();
-        contentPane.add(tabbedPane, BorderLayout.CENTER);
+        contentPane.add(tabbedPane, BorderLayout.CENTER); //
 
         tabbedPane.addTab("Info", informationPanel = new InformationPanel(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), this));
         tabbedPane.addTab("Settings", settingPanel = new SettingPanel(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), new EmptyBorder(5, 5, 5, 5))));
