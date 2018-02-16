@@ -2,6 +2,7 @@ package org.dreambot.articron;
 
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.api.randoms.RandomEvent;
 import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
@@ -18,6 +19,9 @@ import org.dreambot.articron.api.util.traversal.impl.ObjectNode;
 import org.dreambot.articron.api.util.traversal.impl.WalkNode;
 import org.dreambot.articron.data.Edible;
 import org.dreambot.articron.data.ScriptMode;
+import org.dreambot.articron.ui.articron.custom.LogType;
+import org.dreambot.articron.ui.dinh.loader.HImageLoader;
+import org.dreambot.articron.ui.dinh.ui.MainUI;
 
 import java.awt.*;
 
@@ -26,7 +30,7 @@ import java.awt.*;
 public class ArtiAirOrber extends AbstractScript implements InventoryListener {
 
     private APIProvider api;
-
+    private MainUI ui;
 
     @Override
     public void onPaint(Graphics g) {
@@ -45,7 +49,9 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
 
     @Override
     public void onStart() {
-        MethodProvider.log(""+getClient().seededRandom());
+        getRandomManager().disableSolver(RandomEvent.DISMISS);
+        //getRandomManager().disableSolver(RandomEvent.);
+        //MethodProvider.log(""+getClient().seededRandom());
         api = new APIProvider(this);
         CustomPath obeliskPath = PathFactory.createPath(api,
                 new SupplierGroup(),
@@ -165,7 +171,12 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                 //new WalkNode(3088,3570)
         );
         api.registerPath(obeliskPath);
-        api.getUtil().getBankManager().setSet("food", new ItemSet(api, () -> api.getUtil().hasLowHP()));
+        ui = new MainUI(api, HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"));
+        api.getCronTray().setVisible(true);
+        api.getUtil().getAntiPkController().getObserver().start();
+        api.getCronTray().sendMessage("Session started!","Thanks for your purchase!");
+        // api.getCronTray().getLogs().addLog("Started ArtiAirOrb PRO 1.0!", api.getRuntime(), LogType.OTHER);**/
+        /**api.getUtil().getBankManager().setSet("food", new ItemSet(api, () -> api.getUtil().hasLowHP()));
         api.getUtil().getBankManager().getSet("food").addItem(Edible.LOBSTER.toString(),
                 () -> Edible.required(Edible.LOBSTER,getSkills()));
         api.getUtil().getBankManager().setSet("normal", new ItemSet(api, () -> api.getUtil().hasTeleport() &&
@@ -184,13 +195,14 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         );
         api.getUtil().getBankManager().getSet("no_glory").addItem(
                 "Unpowered orb", 26
-        );
+        );**/
+        /**
         api.getUtil().getBankManager().getCache().trackItem("Unpowered orb");
         api.getUtil().getBankManager().getCache().trackItem("Cosmic rune");
         api.getUtil().getBankManager().getCache().setTracked(true);
         api.getNodeController().setMode(ScriptMode.WORK);
-        getWalking().setRunThreshold(api.getUtil().getPotThreshold());
-        api.getUtil().getAntiPkController().getObserver().start();
+        getWalking().setRunThreshold(api.getUtil().getPotThreshold());**/
+
     }
 
     @Override
@@ -203,6 +215,10 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         api.getUtil().getAntiPkController().getObserver().stop();
         getClient().getInstance().setDrawMouse(true);
         api.getUtil().getBankManager().getCache().setTracked(false);
+        if (api.getCronTray().isVisible()) {
+            api.getCronTray().sendMessage("Script shutdown", "Reason: Clean shutdown");
+        }
+        api.getCronTray().setVisible(false);
     }
 
     @Override

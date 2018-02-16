@@ -12,8 +12,11 @@ import java.util.function.BooleanSupplier;
 
 public class EatFood extends Node {
 
-    public EatFood(BooleanSupplier condition) {
+    private String foodName;
+
+    public EatFood(String foodName,BooleanSupplier condition) {
         super(condition);
+        this.foodName = foodName;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class EatFood extends Node {
         }
         int hp = api.getDB().getSkills().getBoostedLevels(Skill.HITPOINTS);
         while (hp < api.getDB().getSkills().getRealLevel(Skill.HITPOINTS)) {
-            Item food = api.getDB().getInventory().get("Lobster");
+            Item food = api.getDB().getInventory().get(foodName);
             if (food == null)
                 break;
             if (food.interact("Eat")) {

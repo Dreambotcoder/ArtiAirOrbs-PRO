@@ -56,6 +56,7 @@ public class PriceCheck {
     }
 
     public static void main(String... args) {
+        System.out.println(formatLikeExchange(900));
     }
 
     public static int getFreshPrice(int id) {

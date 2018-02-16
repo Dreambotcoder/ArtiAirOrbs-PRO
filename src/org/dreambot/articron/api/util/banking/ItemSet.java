@@ -2,6 +2,7 @@ package org.dreambot.articron.api.util.banking;
 
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
+import org.dreambot.articron.data.ScriptMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +90,10 @@ public class ItemSet {
                 int offset = item.getAmount() - api.getDB().getInventory().count(i -> i.getName().equals(item.getItemName()) ||
                         item.getDeviations().contains(i.getName()));
                 if (offset > 0) {
+                    if (api.getDB().getBank().count(item.getItemName()) < offset) {
+                        api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
+                        return false;
+                    }
                     if (offset >= api.getDB().getInventory().getEmptySlots() && !itm.isStackable())
                         return api.getDB().getBank().withdrawAll(item.getItemName());
                     return api.getDB().getBank().withdraw(item.getItemName(), offset);

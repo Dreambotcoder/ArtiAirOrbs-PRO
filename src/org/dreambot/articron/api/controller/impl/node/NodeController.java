@@ -2,9 +2,11 @@ package org.dreambot.articron.api.controller.impl.node;
 
 import org.dreambot.api.data.GameState;
 import org.dreambot.articron.api.APIProvider;
+import org.dreambot.articron.api.controller.impl.node.loaders.GrandExchangeMode;
 import org.dreambot.articron.api.controller.impl.node.loaders.WorkMode;
 import org.dreambot.articron.api.util.CronConstants;
 import org.dreambot.articron.data.ScriptMode;
+import org.dreambot.articron.ui.dinh.ui.MainUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +16,8 @@ public class NodeController  {
 
     private NodeTree rootNode;
     private APIProvider api;
-
     private List<NodeLoader> loaders;
+    private MainUI ui;
 
     public NodeController(APIProvider api) {
         rootNode = new RootNode();
@@ -24,9 +26,14 @@ public class NodeController  {
         addLoaders();
     }
 
+    public void consume(MainUI ui) {
+        this.ui = ui;
+        setMode(ScriptMode.WORK);
+    }
+
     private void addLoaders() {
         loaders.add(new WorkMode());
-
+        loaders.add(new GrandExchangeMode());
     }
 
     public void commit(Node... elements) {
@@ -34,14 +41,15 @@ public class NodeController  {
     }
 
     public void setMode(ScriptMode mode) {
+        rootNode.empty();
         for (NodeLoader loader : loaders) {
             if (loader.getMode() == mode) {
-                rootNode.empty();
-                loader.load(this,api);
+                loader.load(this,api, this.ui);
             }
         }
         CronConstants.SCRIPT_MODE = mode;
     }
+
 
     public void remove(String... elements) {
         for (String name : elements) {
@@ -51,6 +59,11 @@ public class NodeController  {
                 }
             }
         }
+    }
+
+    public void stopScript(String reason) {
+        rootNode.empty();
+        rootNode.addChildren(new ShutdownNode(reason));
     }
 
 

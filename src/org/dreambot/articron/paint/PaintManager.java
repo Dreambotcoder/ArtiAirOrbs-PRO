@@ -22,7 +22,7 @@ public class PaintManager {
 
     public PaintManager(APIProvider api) {
         this.api = api;
-        this.timer = new Timer();
+
         this.mouseTip = new MouseTip(api,this);
         api.getDB().getSkillTracker().start();
         MAIN_FONT = new Font("Arial",Font.PLAIN, 12);
@@ -40,31 +40,32 @@ public class PaintManager {
 
 
     public void onPaint(Graphics2D g) {
+        if (CronConstants.SHOW_PAINT) {
+            int x = 555;
+            g.setFont(MAIN_FONT);
+            g.setColor(BACKGROUND_COLOR);
+            g.fillRoundRect(545, 200, 738 - 545, 467 - 200, 10, 10);
+            g.setColor(BORDER);
+            g.drawRoundRect(545, 200, 738 - 545, 467 - 200, 10, 10);
 
-        int x = 555;
-        g.setFont(MAIN_FONT);
-        g.setColor(BACKGROUND_COLOR);
-        g.fillRoundRect(545,200,738 - 545,467 - 200,10,10);
-        g.setColor(BORDER);
-        g.drawRoundRect(545,200,738 - 545,467 - 200,10,10);
+            g.setColor(TEXT_COLOR);
+            g.drawString("Time running: " + api.getRuntime(), x, 230);
+            g.drawString("Script mode: " + CronConstants.SCRIPT_MODE, x, 250);
 
-        g.setColor(TEXT_COLOR);
-        g.drawString("Time running: " + timer.formatTime(), x,230);
-        g.drawString("Script mode: " + CronConstants.SCRIPT_MODE, x, 250);
+            g.drawString("Orbs made: " + CronConstants.ORBS_CREATED, x, 290);
+            g.drawString("Orbs P/H: " + api.getOrbsPerHour(), x, 310);
+            g.drawString("Magic XP gained: " + api.getDB().getSkillTracker().getGainedExperience(Skill.MAGIC), x, 330);
+            g.drawString("Exp /H: " + api.getDB().getSkillTracker().getGainedExperiencePerHour(Skill.MAGIC), x, 350);
 
-        g.drawString("Orbs made: " + CronConstants.ORBS_CREATED, x,290);
-        g.drawString("Orbs P/H: " + timer.getHourlyRate(CronConstants.ORBS_CREATED), x, 310);
-        g.drawString("Magic XP gained: " + api.getDB().getSkillTracker().getGainedExperience(Skill.MAGIC), x, 330);
-        g.drawString("Exp /H: " + api.getDB().getSkillTracker().getGainedExperiencePerHour(Skill.MAGIC), x, 350);
+            g.drawString("Blacklisted Pkers: " + api.getUtil().getAntiPkController().getPkerCount(), x, 390);
+            g.drawString("Cache: " + api.getUtil().getBankManager().getCache().toString(), 30, 30);
+            // g.drawString("GameState: " + api.getDB().getClient().getGameState().name(), x, 170);
+            ///g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
+            // g.drawString("Bank set: " + CronConstants.BANKSET, x, 170);
+            //g.drawString("Walking node: " + CronConstants.CURRENT_NODE.toString(), x, 170);
 
-        g.drawString("Blacklisted Pkers: " + api.getUtil().getAntiPkController().getPkerCount(), x, 390);
-        g.drawString("Cache: " + api.getUtil().getBankManager().getCache().toString(), 30, 30);
-       // g.drawString("GameState: " + api.getDB().getClient().getGameState().name(), x, 170);
-        ///g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
-       // g.drawString("Bank set: " + CronConstants.BANKSET, x, 170);
-        //g.drawString("Walking node: " + CronConstants.CURRENT_NODE.toString(), x, 170);
-
-        //g.drawString("Zoom: " + api.getDB().getClientSettings().getExactZoomValue(), 30,110);
+            //g.drawString("Zoom: " + api.getDB().getClientSettings().getExactZoomValue(), 30,110);
+        }
         mouseTip.paint(g);
     }
 }

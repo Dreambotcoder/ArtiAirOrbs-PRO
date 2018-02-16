@@ -3,6 +3,7 @@ package org.dreambot.articron.api.util.antipk;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.articron.api.APIProvider;
+import org.dreambot.articron.ui.articron.custom.LogType;
 
 import java.util.List;
 import java.util.concurrent.*;

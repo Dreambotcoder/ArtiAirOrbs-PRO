@@ -21,6 +21,8 @@ public class CronConstants {
 
     public static final Area BANK_AREA ;
 
+    public static boolean SHOW_PAINT = true;
+
     public static String BANKSET = "";
 
 

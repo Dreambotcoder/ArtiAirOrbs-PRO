@@ -16,11 +16,13 @@ import org.dreambot.articron.api.util.antipk.AntiPkController;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.BooleanSupplier;
 
 public class ScriptUtil {
 
     private final int OBELISK_ID = 2152;
 
+    private BooleanSupplier teleportCondition;
 
     private APIProvider api;
     private BankManager bankManager;
@@ -48,9 +50,11 @@ public class ScriptUtil {
         return demon != null && demon.distance() <= 7;
     }
 
+    public void setTeleportCondition(BooleanSupplier supplier) {
+        this.teleportCondition = supplier;
+    }
     public boolean hasTeleport() {
-        Item ammy = api.getDB().getEquipment().getItemInSlot(EquipmentSlot.AMULET.getSlot());
-        return ammy != null && ammy.getName().contains("Amulet of glory") && !ammy.getName().equals("Amulet of glory");
+        return teleportCondition.getAsBoolean();
     }
 
     public boolean shouldPot() {
@@ -66,15 +70,6 @@ public class ScriptUtil {
         return (!api.getDB().getInventory().contains("Cosmic rune") || !api.getDB().getInventory().contains("Unpowered orb"))
                 || api.getUtil().getAntiPkController().pkerExists() && api.getDB().getLocalPlayer().isInCombat()
                 && api.getDB().getLocalPlayer().getCharacterInteractingWithMe() instanceof Player;
-    }
-
-    public boolean gettingHit() {
-        int[] splats = api.getDB().getLocalPlayer().getHitSplatCycles();
-        for (int splat : splats) {
-            if (splat != 0)
-                return true;
-        }
-        return false;
     }
 
     public boolean wildyWidgetOpen() {
