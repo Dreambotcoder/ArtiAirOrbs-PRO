@@ -16,8 +16,8 @@ public class MouseTip {
         this.api = api;
         this.parent = parent;
         MAIN_FONT = new Font("Arial",Font.PLAIN, 10);
-        BACKGROUND = new Color(0.4f,0.2f,0.2f, 0.6f);
-        BORDER = new Color(0.7f,0.2f,0.2f, 0.8f);
+        BACKGROUND = new Color(37/256, 37/256, 37/256,0.3f);
+        BORDER = new Color(46 /256, 204/256, 113/256, 0.8f);
     }
 
     public void paint(Graphics2D g) {

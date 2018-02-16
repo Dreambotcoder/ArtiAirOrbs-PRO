@@ -31,6 +31,7 @@ public class WorkMode implements NodeLoader {
         ),
                 new HopWorld(
                         () -> !api.getDB().getLocalPlayer().isInCombat() && api.getUtil().getAntiPkController().shouldHop()
+                        && !api.getUtil().getMakeHandler().isOpen()
                 ),
                 new EatTree(() ->api.getUtil().hasLowHP()).addChildren(
                         new GloryTele(() -> !CronConstants.BANK_AREA.contains(api.getDB().getLocalPlayer())),

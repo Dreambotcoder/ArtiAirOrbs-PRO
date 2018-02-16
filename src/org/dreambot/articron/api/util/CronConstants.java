@@ -23,7 +23,7 @@ public class CronConstants {
     public static String BANKSET = "";
 
 
-    public static String[] GLORIES = createNumericStrings("Amulet of glory(%s)",1,5);
+    public static String[] GLORIES;
 
     /*
      * Widget constants
@@ -39,6 +39,7 @@ public class CronConstants {
 
     static {
         BANK_AREA = new Area(new Tile(3100,3501), new Tile(3083,3486));
+        GLORIES = createNumericStrings("Amulet of glory(%s)",1,6);
     }
 
 

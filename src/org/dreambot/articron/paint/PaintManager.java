@@ -24,8 +24,8 @@ public class PaintManager {
         this.mouseTip = new MouseTip(api,this);
         api.getDB().getSkillTracker().start();
         MAIN_FONT = new Font("Arial",Font.PLAIN, 12);
-        BACKGROUND_COLOR = new Color(0.4f,0.2f,0.2f, 0.3f);
-        BORDER = new Color(0.7f,0.2f,0.2f, 0.8f);
+        BACKGROUND_COLOR = new Color(37/256, 37/256, 37/256,0.3f);
+        BORDER = new Color(46/256, 204/256, 113/256, 0.8f);
     }
 
     public void setStatus(String status) {

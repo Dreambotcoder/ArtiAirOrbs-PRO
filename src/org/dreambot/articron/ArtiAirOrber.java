@@ -2,14 +2,12 @@ package org.dreambot.articron;
 
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Tile;
-import org.dreambot.api.methods.prayer.Prayer;
 import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.listener.InventoryListener;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.items.Item;
-import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.CronConstants;
 import org.dreambot.articron.api.util.banking.ItemSet;
@@ -18,15 +16,6 @@ import org.dreambot.articron.api.util.traversal.CustomPath;
 import org.dreambot.articron.api.util.traversal.PathFactory;
 import org.dreambot.articron.api.util.traversal.impl.ObjectNode;
 import org.dreambot.articron.api.util.traversal.impl.WalkNode;
-import org.dreambot.articron.behaviour.banking.*;
-import org.dreambot.articron.behaviour.craft.MakeAction;
-import org.dreambot.articron.behaviour.craft.MakeOrbs;
-import org.dreambot.articron.behaviour.emergency.EatFood;
-import org.dreambot.articron.behaviour.emergency.EatTree;
-import org.dreambot.articron.behaviour.misc.*;
-import org.dreambot.articron.behaviour.traversal.DrinkStamina;
-import org.dreambot.articron.behaviour.traversal.WalkToObelisk;
-import org.dreambot.articron.behaviour.traversal.teleport.GloryTele;
 import org.dreambot.articron.data.Edible;
 import org.dreambot.articron.data.ScriptMode;
 
@@ -87,8 +76,13 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         return api.getDB().getWalking().walk(new Tile(3095,3469));
                     }
                 },
-                //new WalkNode(3103,9909),
-                //new WalkNode(3096, 9907),
+                new WalkNode(3103,9909),
+                new WalkNode(3096, 9907) {
+                    @Override
+                    public boolean hasPassed(APIProvider api) {
+                        return api.getDB().getMap().isTileOnMap(getNext().getTile());
+                    }
+                },
                 new ObjectNode("Gate", "Open", 3103,9909) {
                     @Override
                     public int distance() {
