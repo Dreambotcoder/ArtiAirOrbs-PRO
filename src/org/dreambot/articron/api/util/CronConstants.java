@@ -23,6 +23,8 @@ public class CronConstants {
     public static String BANKSET = "";
 
 
+    public static String[] GLORIES = createNumericStrings("Amulet of glory(%s)",1,5);
+
     /*
      * Widget constants
      */

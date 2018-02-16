@@ -22,6 +22,10 @@ public abstract class NodeTree extends Node {
         return this;
     }
 
+    public void empty() {
+        children.clear();
+    }
+
     public void removeChild(Node n) {
         children.remove(n);
     }

@@ -28,6 +28,7 @@ import org.dreambot.articron.behaviour.traversal.DrinkStamina;
 import org.dreambot.articron.behaviour.traversal.WalkToObelisk;
 import org.dreambot.articron.behaviour.traversal.teleport.GloryTele;
 import org.dreambot.articron.data.Edible;
+import org.dreambot.articron.data.ScriptMode;
 
 import java.awt.*;
 
@@ -50,7 +51,6 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
     @Override
     public void onStart() {
         MethodProvider.log(""+getClient().seededRandom());
-        String[] glories = CronConstants.createNumericStrings("Amulet of glory(%s)",1,6);
         api = new APIProvider(this);
         CustomPath obeliskPath = PathFactory.createPath(api,
                 new SupplierGroup(),
@@ -185,67 +185,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
         api.getUtil().getBankManager().getSet("no_glory").addItem(
                 "Unpowered orb", 26
         );
-
-        api.getNodeController().commit(
-
-                new DefaultZoom(
-                        () -> getClientSettings().getExactZoomValue() != CronConstants.DEFAULT_ZOOM
-                ),
-                new HopWorld(
-                        () -> !getLocalPlayer().isInCombat() && api.getUtil().getAntiPkController().shouldHop()
-                ),
-                new EatTree(() ->api.getUtil().hasLowHP()).addChildren(
-                        new GloryTele(() -> !CronConstants.BANK_AREA.contains(getLocalPlayer())),
-                        new OpenBank(() -> !getBank().isOpen() && !getInventory().contains(item -> item != null && item.hasAction("Eat"))),
-                        new DepositTask(() -> getBank().isOpen() && api.getUtil().getBankManager().shouldDeposit()),
-                        new WithdrawAction(() -> getBank().isOpen() && !getInventory().contains(item -> item != null && item.hasAction("Eat"))),
-                        new CloseBank(() -> getBank().isOpen()),
-                        new EatFood(() -> !getBank().isOpen() && getInventory().contains(item -> item != null && item.hasAction("Eat")))
-                ),
-
-                new BankTree(() -> api.getUtil().shouldBank()).addChildren(
-                        new OpenBank(() -> !getBank().isOpen()),
-                        new DepositTask(() -> getBank().isOpen() && api.getUtil().getBankManager().shouldDeposit()),
-                        new WithdrawAction(() -> getBank().isOpen() && !getInventory().contains("Air orb") && !api.getUtil().getBankManager().hasAllItems())
-
-                ),
-                new ClickWildy(
-                        () ->  api.getUtil().wildyWidgetOpen()
-                ),
-                new CloseBank(() -> getBank().isOpen()),
-
-                new DrinkStamina(
-                        () -> api.getUtil().shouldPot() && !api.getUtil().atObelisk()
-                ),
-                new WearItem(() -> !api.getUtil().hasTeleport() && getInventory().contains(
-                        CronConstants.createNumericStrings("Amulet of glory(%s)",1,6)), glories),
-
-                new WearItem(
-                        () -> !api.getUtil().hasStaff(), "Staff of air"
-                ),
-
-
-                new PrayMelee(
-                        () -> api.getUtil().shouldPray() && !api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
-                ),
-                new DisablePray(
-                        () -> !api.getUtil().shouldPray() && api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
-                ),
-                new GloryTele(
-                        () -> api.getUtil().shouldTeleport() && !CronConstants.BANK_AREA.contains(getLocalPlayer())
-                ),
-                new WalkToObelisk(
-                        () -> !api.getUtil().atObelisk() && !api.getUtil().shouldBank()
-                ),
-                new MakeOrbs(
-                        () -> api.getUtil().atObelisk() && !api.getUtil().getMakeHandler().isOpen()
-                        && !api.getUtil().isCharging() && getInventory().contains("Unpowered orb")
-                ),
-                new MakeAction(
-                        () -> api.getUtil().atObelisk() && api.getUtil().getMakeHandler().isOpen()
-                        && !api.getUtil().isCharging()
-                )
-        );
+        api.getNodeController().setMode(ScriptMode.WORK);
         getWalking().setRunThreshold(api.getUtil().getPotThreshold());
         api.getUtil().getAntiPkController().getObserver().start();
     }

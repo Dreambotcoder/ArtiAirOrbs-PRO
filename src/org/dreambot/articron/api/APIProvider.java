@@ -18,7 +18,7 @@ public class APIProvider {
 
     public APIProvider(AbstractScript script) {
         this.script = script;
-        this.nodeController = new NodeController();
+        this.nodeController = new NodeController(this);
         this.util = new ScriptUtil(this);
         this.paintManager = new PaintManager(this);
         this.antibanController = new AntibanController(this, getDB().getClient().seededRandom());
