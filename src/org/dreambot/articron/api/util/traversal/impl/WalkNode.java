@@ -9,7 +9,7 @@ public class WalkNode implements PathNode {
 
     private Tile tile;
 
-    private PathNode next;
+    private PathNode next = null;
 
     public WalkNode(int x, int y) {
         this(x, y, 0);
@@ -57,6 +57,10 @@ public class WalkNode implements PathNode {
     public boolean traverse(APIProvider api, SupplierGroup stopConditions) {
         if (hasPassed(api))
             return true;
+        Tile dest = api.getDB().getClient().getDestination();
+        if (dest != null &&  dest.distance(tile) < 3) {
+            return true;
+        }
         if (api.getDB().getWalking().walk(tile.getRandomizedTile(getMaxRadius()))) {
             // MethodProvider.sleep(600);
             Tile t = api.getDB().getClient().getDestination();
@@ -70,9 +74,7 @@ public class WalkNode implements PathNode {
 
     @Override
     public boolean hasPassed(APIProvider api) {
-        if (next == null)
-            return getTile().distance() <= 8;
-        return api.getDB().getMap().canReach(next.getTile());
+        return getTile().distance() < 8;
     }
 
     @Override

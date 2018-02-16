@@ -11,7 +11,7 @@ public class ObjectNode implements PathNode {
 
     private Tile objectLoc;
     private String name, action;
-    private PathNode next;
+    private PathNode next = null;
 
     private Tile walkTile;
 
@@ -51,8 +51,6 @@ public class ObjectNode implements PathNode {
     }
 
     public GameObject getObject(APIProvider context) {
-
-       // log("Checking on " + objectLoc.toString() + " ["+name+","+action+"]" );
         return context.getDB().getGameObjects().closest(o -> o != null && o.getName().equalsIgnoreCase(name)
         && o.getTile().equals(objectLoc) && o.hasAction(action));
     }
@@ -70,21 +68,26 @@ public class ObjectNode implements PathNode {
     public boolean traverse(APIProvider api, SupplierGroup stopConditions) {
         if (hasPassed(api))
             return true;
-        if (getObject(api) != null) {
-            if (getObject(api).getTile().distance() < distance()) {
-                return getObject(api).interact(action) || api.getDB().getCamera().rotateToEntity(getObject(api));
+        if (api.getDB().getMap().isTileOnMap(objectLoc)) {
+            if (api.getDB().getMap().isTileOnScreen(objectLoc) || api.getDB().getCamera().rotateToTile(objectLoc)) {
+                if (exists(api)) {
+                    return getObject(api).interact(action)
+                            && MethodProvider.sleepUntil(() -> {
+                                MethodProvider.sleep(100);
+                                return hasPassed(api) || !api.getDB().getLocalPlayer().isMoving();
+                            },
+                            (long) objectLoc.distance() * 600);
+                } else {
+                    return ifDistant(api);
+                }
             }
         }
         return ifDistant(api);
     }
 
     public boolean ifDistant(APIProvider api) {
-        if (api.getDB().getWalking().walk(objectLoc)) {
-            MethodProvider.sleepUntil(() -> api.getDB().getLocalPlayer().isMoving(),600);
-                return true;
-            }
-        return false;
-        /**if (objectLoc.distance() < 8 && getObject(api) != null) {
+        return api.getDB().getWalking().walk(objectLoc) && traverse(api);
+        /*if (objectLoc.distance() < 8 && getObject(api) != null) {
             return api.getDB().getCamera().rotateToEntity(getObject(api));
         }
         Tile t = api.getDB().getClient().getDestination();
@@ -116,7 +119,8 @@ public class ObjectNode implements PathNode {
 
     @Override
     public boolean exists(APIProvider api) {
-        return getObject(api) != null;
+        GameObject object = getObject(api);
+        return object != null && object.exists();
     }
 
     @Override

@@ -4,12 +4,15 @@ import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
+import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.banking.BankManager;
+import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.api.util.concurrency.ChargeChecker;
 import org.dreambot.articron.api.util.makeWidget.MakeHandler;
+import org.dreambot.articron.api.util.antipk.AntiPkController;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,17 +20,21 @@ import java.util.concurrent.Executors;
 public class ScriptUtil {
 
     private final int OBELISK_ID = 2152;
+
+
     private APIProvider api;
     private BankManager bankManager;
     private MakeHandler makeWidget;
     private int potThreshold = 30, eatThreshold = 50;
     private ChargeChecker checker;
     private ExecutorService executor;
+    private AntiPkController antiPkController;
 
     public ScriptUtil(APIProvider api) {
         this.api = api;
         this.makeWidget = new MakeHandler(api);
         this.bankManager = new BankManager(api);
+        this.antiPkController = new AntiPkController(api);
     }
 
     public boolean atObelisk() {
@@ -41,7 +48,7 @@ public class ScriptUtil {
         return demon != null && demon.distance() <= 7;
     }
 
-    public boolean hasGlory() {
+    public boolean hasTeleport() {
         Item ammy = api.getDB().getEquipment().getItemInSlot(EquipmentSlot.AMULET.getSlot());
         return ammy != null && ammy.getName().contains("Amulet of glory") && !ammy.getName().equals("Amulet of glory");
     }
@@ -56,7 +63,9 @@ public class ScriptUtil {
     }
 
     public boolean shouldTeleport() {
-        return (!api.getDB().getInventory().contains("Cosmic rune") || !api.getDB().getInventory().contains("Unpowered orb"));
+        return (!api.getDB().getInventory().contains("Cosmic rune") || !api.getDB().getInventory().contains("Unpowered orb"))
+                || api.getUtil().getAntiPkController().pkerExists() && api.getDB().getLocalPlayer().isInCombat()
+                && api.getDB().getLocalPlayer().getCharacterInteractingWithMe() instanceof Player;
     }
 
     public boolean gettingHit() {
@@ -69,7 +78,7 @@ public class ScriptUtil {
     }
 
     public boolean wildyWidgetOpen() {
-        WidgetChild c = api.getDB().getWidgets().getWidgetChild(475, 11);
+        WidgetChild c = api.getDB().getWidgets().getWidgetChild(CronConstants.WILDERNESS_SCREEN_MAIN, CronConstants.ACCEPT_WILD_CHILD);
         return (c != null) && c.isVisible();
     }
     public MakeHandler getMakeHandler() {
@@ -82,8 +91,9 @@ public class ScriptUtil {
 
 
     public boolean shouldBank() {
-        return (!api.getUtil().getBankManager().hasAllItems())
-         && CronUtil.BANK_AREA.contains(api.getDB().getLocalPlayer());
+        ItemSet set = api.getUtil().getBankManager().getValidSet();
+        return set != null && set.hasNext()
+         && CronConstants.BANK_AREA.contains(api.getDB().getLocalPlayer());
     }
 
     public void startChargeChecker() {
@@ -92,6 +102,10 @@ public class ScriptUtil {
         this.executor.submit(this.checker);
     }
 
+    public boolean hasStaff() {
+        Item t = api.getDB().getEquipment().getItemInSlot(EquipmentSlot.WEAPON.getSlot());
+        return t != null && t.getName().contains("Staff");
+    }
     public boolean isCharging() {
         return checker != null && checker.isCharging();
     }
@@ -116,10 +130,14 @@ public class ScriptUtil {
     public boolean hasLowHP() {
         int currentHP = api.getDB().getSkills().getBoostedLevels(Skill.HITPOINTS);
         int maxHP = api.getDB().getSkills().getRealLevel(Skill.HITPOINTS);
-        return CronUtil.getPercentage(currentHP,maxHP) <= eatThreshold;
+        return CronConstants.getPercentage(currentHP,maxHP) <= eatThreshold;
     }
 
     public int getEatingThreshold() {
         return this.eatThreshold;
+    }
+
+    public AntiPkController getAntiPkController() {
+        return antiPkController;
     }
 }

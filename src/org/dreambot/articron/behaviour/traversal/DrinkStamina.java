@@ -5,7 +5,7 @@ import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.Node;
-import org.dreambot.articron.api.util.CronUtil;
+import org.dreambot.articron.api.util.CronConstants;
 
 import java.util.function.BooleanSupplier;
 
@@ -32,6 +32,6 @@ public class DrinkStamina extends Node {
         if (pot != null && pot.interact("Drink")) {
             MethodProvider.sleepUntil(() -> percentage != api.getDB().getWalking().getRunEnergy(), 600);
         }
-        return CronUtil.BASE_SLEEP;
+        return CronConstants.BASE_SLEEP;
     }
 }

@@ -20,12 +20,12 @@ public class TeleportSelection extends HPanel {
 
     public TeleportSelection(Border border, int orientation, int min, int max, int initial) {
         super(new BorderLayout(), border);
-        HLabel label = new HLabel("Teleport below 90% Hitpoints", JTextField.CENTER);
+        HLabel label = new HLabel("Emergency teleport below "+initial+"% HP", JTextField.CENTER);
         add(label, BorderLayout.NORTH);
         add(slider = new HSlider(orientation, min, max, initial), BorderLayout.SOUTH);
         slider.addChangeListener(listener -> {
             int amount = getSelected();
-            label.setText("Teleport below " + amount + "% Hitpoints");
+            label.setText("Emergency teleport below " + amount + "% HP");
         });
         slider.setMinorTickSpacing(5);
     }
