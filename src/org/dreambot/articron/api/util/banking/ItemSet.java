@@ -15,11 +15,17 @@ public class ItemSet {
     private BooleanSupplier when;
     private List<WithdrawItem> items;
     private APIProvider api;
+    private Runnable ifOut;
 
-    public ItemSet(APIProvider api, BooleanSupplier when) {
+    public ItemSet(APIProvider api, BooleanSupplier when, Runnable ifOut) {
         this.when = when;
         this.items = new ArrayList<>();
         this.api = api;
+        this.ifOut = ifOut;
+    }
+
+    public ItemSet(APIProvider api, BooleanSupplier when) {
+        this(api,when,null);
     }
 
     public void addItem(String name, int amount, String... deviations) {
@@ -83,6 +89,20 @@ public class ItemSet {
         return false;
     }
 
+    public List<String> getDeficit() {
+        List<String> deficits = new ArrayList<>();
+       for (WithdrawItem item : items) {
+           int offset = item.getAmount() - api.getDB().getInventory().count(i -> i.getName().equals(item.getItemName()) ||
+                   item.getDeviations().contains(i.getName()));
+           if (offset > 0) {
+               if (api.getDB().getBank().count(item.getItemName()) < offset) {
+                   deficits.add(item.getItemName());
+               }
+           }
+       }
+       return deficits;
+    }
+
     public boolean solveNext() {
         for (WithdrawItem item : items) {
             Item itm = api.getDB().getBank().get(item.getItemName());
@@ -91,7 +111,10 @@ public class ItemSet {
                         item.getDeviations().contains(i.getName()));
                 if (offset > 0) {
                     if (api.getDB().getBank().count(item.getItemName()) < offset) {
-                        api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
+                        if (ifOut != null)
+                            ifOut.run();
+                        else
+                            api.getNodeController().stopScript("Unexpected bank logic");
                         return false;
                     }
                     if (offset >= api.getDB().getInventory().getEmptySlots() && !itm.isStackable())

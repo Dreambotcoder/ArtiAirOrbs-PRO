@@ -31,13 +31,13 @@ public class WorkMode implements NodeLoader {
     @Override
     public void load(NodeController controller, APIProvider api, MainUI ui) {
 
-        int orbCount = ui.getSettingPanel().getMainSettings().getMandatorySettings().getSlider().getSelected();
-        int eatPercentage = ui.getSettingPanel().getTeleportSettings().getSelection().getSelected();
-        boolean staminas = ui.getSettingPanel().getTeleportSettings().getAdditionalSettings().get(0).isSelected();
-        boolean tpWhenAttacked = ui.getSettingPanel().getTeleportSettings().getAdditionalSettings().get(1).isSelected();
-        boolean stopWithoutSupplies = ui.getSettingPanel().getTeleportSettings().getAdditionalSettings().get(2).isSelected();
-        boolean useGlory = ui.getSettingPanel().getTeleportSettings().getTeleportPanel().getArray()[0].isSelected();
-        Edible selectedFood = ui.getSettingPanel().getMainSettings().getMandatorySettings().getFoodSelection().getSelected();
+        int orbCount = api.getSettings().getOrbcount();
+        int eatPercentage = api.getSettings().getEatPercentage();
+        boolean staminas = api.getSettings().isUseStamina();
+        boolean tpWhenAttacked = api.getSettings().isTeleportWhenAttacked();
+        boolean stopWithoutSupplies = api.getSettings().isStopWithoutSupplies();
+        boolean useGlory = api.getSettings().isUseGlory();
+        Edible selectedFood = api.getSettings().getSelectedFood();
 
         api.getUtil().setEatingThreshold(eatPercentage);
 
@@ -51,13 +51,27 @@ public class WorkMode implements NodeLoader {
             }
         });
 
-        api.getUtil().getBankManager().setSet("food", new ItemSet(api, () -> api.getUtil().hasLowHP()));
+        api.getUtil().getBankManager().setSet("food", new ItemSet(api, () -> api.getUtil().hasLowHP(), () -> {
+            if (stopWithoutSupplies) {
+                api.getNodeController().stopScript("Out of supplies");
+            } else {
+                api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
+            }
+        }));
         api.getUtil().getBankManager().getSet("food").addItem(selectedFood.toString(),() -> Edible.required(selectedFood, api.getDB().getSkills()));
         MethodProvider.log("Edible = " + selectedFood.toString());
         MethodProvider.log("Use glory = " + useGlory);
 
         api.getUtil().getBankManager().setSet("normal", new ItemSet(api, () -> api.getUtil().hasTeleport() &&
-                !api.getUtil().hasLowHP()));
+                !api.getUtil().hasLowHP(), () -> {
+            if (stopWithoutSupplies) {
+                api.getNodeController().stopScript("Out of supplies");
+            } else {
+                api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
+            }
+        }));
 
         api.getUtil().getBankManager().getSet("normal").addItem("Cosmic rune", (orbCount * 3));
         if (staminas) {
@@ -68,7 +82,14 @@ public class WorkMode implements NodeLoader {
         api.getUtil().getBankManager().getSet("normal").addItem("Unpowered orb", orbCount);
 
         api.getUtil().getBankManager().setSet("no_glory", new ItemSet(api, () -> !api.getUtil().hasTeleport()
-                && !api.getUtil().hasLowHP()));
+                && !api.getUtil().hasLowHP(),() -> {
+            if (stopWithoutSupplies) {
+                api.getNodeController().stopScript("Out of supplies");
+            } else {
+                api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
+            }
+        }));
 
         if (useGlory) {
             api.getUtil().getBankManager().getSet("no_glory").addItem(

@@ -11,6 +11,7 @@ import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.banking.BankManager;
 import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.api.util.concurrency.ChargeChecker;
+import org.dreambot.articron.api.util.ge.ExchangeHandler;
 import org.dreambot.articron.api.util.makeWidget.MakeHandler;
 import org.dreambot.articron.api.util.antipk.AntiPkController;
 
@@ -26,17 +27,20 @@ public class ScriptUtil {
 
     private APIProvider api;
     private BankManager bankManager;
+    private ExchangeHandler exchangeHandler;
     private MakeHandler makeWidget;
     private int potThreshold = 30, eatThreshold = 50;
     private ChargeChecker checker;
     private ExecutorService executor;
     private AntiPkController antiPkController;
 
+
     public ScriptUtil(APIProvider api) {
         this.api = api;
         this.makeWidget = new MakeHandler(api);
         this.bankManager = new BankManager(api);
         this.antiPkController = new AntiPkController(api);
+        this.exchangeHandler = new ExchangeHandler(api);
     }
 
     public boolean atObelisk() {
@@ -101,6 +105,7 @@ public class ScriptUtil {
         Item t = api.getDB().getEquipment().getItemInSlot(EquipmentSlot.WEAPON.getSlot());
         return t != null && t.getName().contains("Staff");
     }
+
     public boolean isCharging() {
         return checker != null && checker.isCharging();
     }
@@ -125,7 +130,7 @@ public class ScriptUtil {
     public boolean hasLowHP() {
         int currentHP = api.getDB().getSkills().getBoostedLevels(Skill.HITPOINTS);
         int maxHP = api.getDB().getSkills().getRealLevel(Skill.HITPOINTS);
-        return CronConstants.getPercentage(currentHP,maxHP) <= eatThreshold;
+        return CronConstants.getBoundedPercentage(currentHP,maxHP) <= eatThreshold;
     }
 
     public int getEatingThreshold() {
@@ -134,5 +139,9 @@ public class ScriptUtil {
 
     public AntiPkController getAntiPkController() {
         return antiPkController;
+    }
+
+    public ExchangeHandler getGrandExchange() {
+        return exchangeHandler;
     }
 }

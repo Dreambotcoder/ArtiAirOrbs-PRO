@@ -70,8 +70,9 @@ public class ObjectNode implements PathNode {
             return true;
         if (api.getDB().getMap().isTileOnMap(objectLoc)) {
             if (api.getDB().getMap().isTileOnScreen(objectLoc) || api.getDB().getCamera().rotateToTile(objectLoc)) {
-                if (exists(api)) {
-                    return getObject(api).interact(action)
+                    GameObject object = getObject(api);
+                    if (object != null && object.exists()) {
+                    return object.interact(action)
                             && MethodProvider.sleepUntil(() -> {
                                 MethodProvider.sleep(100);
                                 return hasPassed(api) || !api.getDB().getLocalPlayer().isMoving();

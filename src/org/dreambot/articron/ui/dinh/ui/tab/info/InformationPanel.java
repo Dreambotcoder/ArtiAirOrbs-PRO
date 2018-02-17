@@ -41,8 +41,8 @@ public class InformationPanel extends HPanel {
         });
         buttons.add(button);
         buttons.add(new HButton("Start", listener -> {
-            api.getNodeController().consume(main);
-            main.setVisible(false);
+            api.getSettings().consume(main);
+            main.dispose();
         }));
         top.add(information, BorderLayout.WEST);
         top.add(buttons, BorderLayout.EAST);

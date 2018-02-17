@@ -62,9 +62,13 @@ public class CronConstants {
         return strings.toArray(new String[strings.size()]);
     }
 
-    public static int getPercentage(int part, int total) {
+    public static int getBoundedPercentage(int part, int total) {
         int percent = (( part * 100) / total);
         return percent > 100 ? 100 : percent;
+    }
+
+    public static int getRealPercentage(int part, int total) {
+        return ((part * 100) / total);
     }
 
 

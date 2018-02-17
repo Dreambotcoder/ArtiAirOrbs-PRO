@@ -1,6 +1,5 @@
 package org.dreambot.articron;
 
-import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.randoms.RandomEvent;
 import org.dreambot.api.script.AbstractScript;
@@ -11,22 +10,18 @@ import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.CronConstants;
-import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.api.util.conditional.SupplierGroup;
 import org.dreambot.articron.api.util.traversal.CustomPath;
 import org.dreambot.articron.api.util.traversal.PathFactory;
 import org.dreambot.articron.api.util.traversal.impl.ObjectNode;
 import org.dreambot.articron.api.util.traversal.impl.WalkNode;
-import org.dreambot.articron.data.Edible;
-import org.dreambot.articron.data.ScriptMode;
-import org.dreambot.articron.ui.articron.custom.LogType;
 import org.dreambot.articron.ui.dinh.loader.HImageLoader;
 import org.dreambot.articron.ui.dinh.ui.MainUI;
 
 import java.awt.*;
 
 
-@ScriptManifest(category = Category.MAGIC, name = "Orb", author = "Articron", version = 1.0D)
+@ScriptManifest(category = Category.MAGIC, name = "Orb", author = "Articron", version = 1.5D)
 public class ArtiAirOrber extends AbstractScript implements InventoryListener {
 
     private APIProvider api;
@@ -88,8 +83,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
                         return api.getDB().getWalking().walk(new Tile(3095,3469));
                     }
                 },
-                new WalkNode(3103,9909),
-                new WalkNode(3096, 9907) {
+                new WalkNode(3103,9909) {
                     @Override
                     public boolean hasPassed(APIProvider api) {
                         return api.getDB().getMap().isTileOnMap(getNext().getTile());
@@ -165,7 +159,7 @@ public class ArtiAirOrber extends AbstractScript implements InventoryListener {
 
                     @Override
                     public int distance() {
-                        return 12;
+                        return 8;
                     }
                 }
                 //new WalkNode(3088,3570)

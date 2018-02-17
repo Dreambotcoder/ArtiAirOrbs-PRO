@@ -42,6 +42,10 @@ public class NodeController  {
 
     public void setMode(ScriptMode mode) {
         rootNode.empty();
+        api.getUtil().getBankManager().clear();
+        if (!api.hasStarted()) {
+            api.startScript();
+        }
         for (NodeLoader loader : loaders) {
             if (loader.getMode() == mode) {
                 loader.load(this,api, this.ui);

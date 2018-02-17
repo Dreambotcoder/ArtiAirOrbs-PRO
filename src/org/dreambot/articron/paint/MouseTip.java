@@ -14,7 +14,7 @@ public class MouseTip {
 
     private final Color TIP_OUT = new Color(46, 204, 113);
     private final Color TIP_MID = new Color(0,0,0,0.8f);
-    private final Color TEXT_COLOR = new Color(189, 195, 199);
+    private final Color TEXT_COLOR = new Color(46, 204, 113);
 
 
     protected MouseTip(APIProvider api, PaintManager parent) {

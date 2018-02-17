@@ -6,6 +6,7 @@ import org.dreambot.api.utilities.Timer;
 import org.dreambot.articron.api.antiban.AntibanController;
 import org.dreambot.articron.api.controller.impl.node.NodeController;
 import org.dreambot.articron.api.util.CronConstants;
+import org.dreambot.articron.api.util.ScriptSettings;
 import org.dreambot.articron.api.util.ScriptUtil;
 import org.dreambot.articron.api.util.traversal.CustomPath;
 import org.dreambot.articron.paint.PaintManager;
@@ -20,7 +21,9 @@ public class APIProvider {
     private PaintManager paintManager;
     private AntibanController antibanController;
     private CronTray cronTray;
+    private ScriptSettings settings;
     private Timer timer;
+    private boolean started;
 
     public APIProvider(AbstractScript script) {
         this.script = script;
@@ -29,9 +32,18 @@ public class APIProvider {
         this.paintManager = new PaintManager(this);
         this.antibanController = new AntibanController(this, getDB().getClient().seededRandom());
         this.cronTray = new CronTray(this);
-        this.timer = new Timer();
+        //this.timer = new Timer();
+        this.settings = new ScriptSettings();
     }
 
+    public void startScript() {
+        this.timer = new Timer();
+        this.started = true;
+    }
+
+    public boolean hasStarted() {
+        return this.started;
+    }
     public String getRuntime() {
         return timer.formatTime();
     }
@@ -74,5 +86,9 @@ public class APIProvider {
 
     public CronTray getCronTray() {
         return cronTray;
+    }
+
+    public ScriptSettings getSettings() {
+        return settings;
     }
 }

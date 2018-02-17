@@ -36,6 +36,10 @@ public class BankManager {
         return null;
     }
 
+    public void clear() {
+        bankCases.clear();
+    }
+
     public BankCache getCache() {
         return cache;
     }
@@ -46,6 +50,11 @@ public class BankManager {
             count += item.getAmount();
         }
         return count;
+    }
+
+    public String[] getDeficits() {
+        ItemSet valid = getValidSet();
+        return valid !=null ? valid.getDeficit().toArray(new String[valid.getDeficit().size()]) : null;
     }
 
 

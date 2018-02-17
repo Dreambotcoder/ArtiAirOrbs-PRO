@@ -40,7 +40,7 @@ public class PaintManager {
 
 
     public void onPaint(Graphics2D g) {
-        if (CronConstants.SHOW_PAINT) {
+        if (CronConstants.SHOW_PAINT && api.hasStarted()) {
             int x = 555;
             g.setFont(MAIN_FONT);
             g.setColor(BACKGROUND_COLOR);
@@ -56,9 +56,11 @@ public class PaintManager {
             g.drawString("Orbs P/H: " + api.getOrbsPerHour(), x, 310);
             g.drawString("Magic XP gained: " + api.getDB().getSkillTracker().getGainedExperience(Skill.MAGIC), x, 330);
             g.drawString("Exp /H: " + api.getDB().getSkillTracker().getGainedExperiencePerHour(Skill.MAGIC), x, 350);
-
-            g.drawString("Blacklisted Pkers: " + api.getUtil().getAntiPkController().getPkerCount(), x, 390);
-            g.drawString("Cache: " + api.getUtil().getBankManager().getCache().toString(), 30, 30);
+            g.drawString("Magic level: " + api.getDB().getSkills().getRealLevel(Skill.MAGIC) + "(+"+
+            api.getDB().getSkillTracker().getGainedLevels(Skill.MAGIC)+")",x,370);
+           // g.drawString("TTL: " + api.getDB().getSkillTracker().getTimeToLevel(Skill.MAGIC),x,390);
+            g.drawString("Blacklisted Pkers: " + api.getUtil().getAntiPkController().getPkerCount(), x, 410);
+            //g.drawString("Cache: " + api.getUtil().getBankManager().getCache().toString(), 30, 30);
             // g.drawString("GameState: " + api.getDB().getClient().getGameState().name(), x, 170);
             ///g.drawString("Wild level: " + api.getUtil().getAntiPkController().getWildernessLevel(), x, 170);
             // g.drawString("Bank set: " + CronConstants.BANKSET, x, 170);
