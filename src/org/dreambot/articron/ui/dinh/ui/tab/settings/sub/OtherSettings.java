@@ -1,13 +1,10 @@
 package org.dreambot.articron.ui.dinh.ui.tab.settings.sub;
 
-import org.dreambot.articron.ui.dinh.swing.HFrame;
 import org.dreambot.articron.ui.dinh.swing.HPanel;
 import org.dreambot.articron.ui.dinh.swing.child.HCheckBox;
 
-import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 
 /**
  * Created by: Niklas

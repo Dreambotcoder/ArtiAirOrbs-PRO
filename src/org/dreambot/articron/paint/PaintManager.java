@@ -6,7 +6,6 @@ import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.CronConstants;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class PaintManager {
 

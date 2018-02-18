@@ -1,13 +1,9 @@
 package org.dreambot.articron.api.util;
 
 
-import org.dreambot.articron.api.util.banking.WithdrawItem;
 import org.dreambot.articron.data.Edible;
 import org.dreambot.articron.ui.dinh.ui.MainUI;
 import org.dreambot.articron.ui.dinh.ui.tab.settings.sub.StaticItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScriptSettings {
 

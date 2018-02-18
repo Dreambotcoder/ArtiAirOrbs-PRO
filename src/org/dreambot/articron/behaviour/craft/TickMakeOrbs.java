@@ -2,11 +2,8 @@ package org.dreambot.articron.behaviour.craft;
 
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
-import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.magic.Normal;
-import org.dreambot.api.script.listener.InventoryListener;
 import org.dreambot.api.wrappers.interactive.GameObject;
-import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.Node;
 import org.dreambot.articron.api.util.CronConstants;
@@ -32,6 +29,7 @@ public class TickMakeOrbs extends Node {
         }
         GameObject obelisk = api.getUtil().getObelisk();
         api.getDB().getMouse().setAlwaysHop(true);
+        MethodProvider.sleep(600);
         if (!api.getUtil().getMakeHandler().isOpen() || api.getDB().getLocalPlayer().getAnimation() == CronConstants.CHARGE_ANIM) {
             if (api.getDB().getMagic().castSpellOn(Normal.CHARGE_AIR_ORB, obelisk)) {
                 MethodProvider.sleepUntil(() -> api.getUtil().getMakeHandler().isOpen(), 600);

@@ -21,7 +21,13 @@ import org.dreambot.articron.ui.dinh.ui.MainUI;
 import java.awt.*;
 
 
-@ScriptManifest(category = Category.MAGIC, name = "Orb", author = "Articron", version = 1.5D)
+@ScriptManifest(
+        category = Category.MAGIC,
+        name = "Arti AirOrb PRO",
+        author = "Articron",
+        version = 1.0D,
+        description = "A robust air orb charger"
+)
 public class ArtiAirOrber extends AbstractScript implements InventoryListener {
 
     private APIProvider api;

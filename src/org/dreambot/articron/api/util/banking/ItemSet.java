@@ -2,7 +2,6 @@ package org.dreambot.articron.api.util.banking;
 
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
-import org.dreambot.articron.data.ScriptMode;
 
 import java.util.ArrayList;
 import java.util.List;

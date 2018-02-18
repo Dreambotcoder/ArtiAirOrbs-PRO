@@ -3,8 +3,6 @@ package org.dreambot.articron.api.controller.impl.node;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.articron.api.APIProvider;
 
-import java.util.function.BooleanSupplier;
-
 public class ShutdownNode extends Node {
 
     private String reason;

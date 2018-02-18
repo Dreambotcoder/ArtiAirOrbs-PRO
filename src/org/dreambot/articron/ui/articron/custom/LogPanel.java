@@ -1,6 +1,5 @@
 package org.dreambot.articron.ui.articron.custom;
 
-import org.dreambot.articron.ui.dinh.loader.HImageLoader;
 import org.dreambot.articron.ui.dinh.swing.HFrame;
 import org.dreambot.articron.ui.dinh.swing.HPanel;
 import org.dreambot.articron.ui.dinh.swing.child.HLabel;

@@ -21,6 +21,8 @@
  ******************************************************************************/
 package org.dreambot.articron.net.json;
 
+import org.dreambot.articron.net.json.JsonObject.Member;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Reader;
@@ -28,8 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import org.dreambot.articron.net.json.JsonObject.Member;
 
 
 /**

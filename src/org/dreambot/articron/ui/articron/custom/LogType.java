@@ -2,10 +2,8 @@ package org.dreambot.articron.ui.articron.custom;
 
 import org.dreambot.articron.ui.dinh.loader.HImageLoader;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 public enum LogType {
     ERROR("Script error log", new Color(231, 76, 60),HImageLoader.loadImage("http://www.pvhc.net/img142/lbsjptugcqsghgcrvaof.png")),

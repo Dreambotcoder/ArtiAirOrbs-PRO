@@ -4,7 +4,9 @@ import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.CronConstants;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class BankManager {
 

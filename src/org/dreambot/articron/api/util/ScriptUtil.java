@@ -8,12 +8,12 @@ import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.WidgetChild;
 import org.dreambot.articron.api.APIProvider;
+import org.dreambot.articron.api.util.antipk.AntiPkController;
 import org.dreambot.articron.api.util.banking.BankManager;
 import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.api.util.concurrency.ChargeChecker;
 import org.dreambot.articron.api.util.ge.ExchangeHandler;
 import org.dreambot.articron.api.util.makeWidget.MakeHandler;
-import org.dreambot.articron.api.util.antipk.AntiPkController;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

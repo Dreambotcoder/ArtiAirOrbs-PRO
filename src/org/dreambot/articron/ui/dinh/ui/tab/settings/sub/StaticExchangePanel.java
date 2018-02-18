@@ -3,7 +3,6 @@ package org.dreambot.articron.ui.dinh.ui.tab.settings.sub;
 import org.dreambot.articron.ui.dinh.swing.HPanel;
 
 import java.awt.*;
-import java.util.Arrays;
 
 /**
  * Created by: Niklas

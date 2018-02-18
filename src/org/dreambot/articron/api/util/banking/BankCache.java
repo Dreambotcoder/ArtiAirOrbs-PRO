@@ -3,7 +3,6 @@ package org.dreambot.articron.api.util.banking;
 import org.dreambot.articron.api.APIProvider;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BankCache {

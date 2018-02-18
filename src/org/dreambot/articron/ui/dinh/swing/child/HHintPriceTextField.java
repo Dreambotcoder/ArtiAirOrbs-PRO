@@ -1,8 +1,8 @@
 package org.dreambot.articron.ui.dinh.swing.child;
 
+import org.dreambot.articron.net.PriceCheck;
 import org.dreambot.articron.ui.dinh.swing.HFrame;
 import org.dreambot.articron.ui.dinh.swing.HPanel;
-import org.dreambot.articron.net.PriceCheck;
 
 import javax.swing.*;
 import java.awt.*;

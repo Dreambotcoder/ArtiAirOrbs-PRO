@@ -6,7 +6,6 @@ import org.dreambot.articron.ui.dinh.loader.HImageLoader;
 import org.dreambot.articron.ui.dinh.swing.HFrame;
 import org.dreambot.articron.ui.dinh.swing.HPanel;
 import org.dreambot.articron.ui.dinh.swing.child.HButton;
-import org.dreambot.articron.ui.dinh.swing.child.HLabel;
 import org.dreambot.articron.ui.dinh.swing.child.HScrollPane;
 
 import java.awt.*;

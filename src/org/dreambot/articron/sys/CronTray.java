@@ -2,7 +2,6 @@ package org.dreambot.articron.sys;
 
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.util.CronConstants;
-import org.dreambot.articron.ui.articron.LogUI;
 import org.dreambot.articron.ui.dinh.loader.HImageLoader;
 import org.dreambot.articron.ui.dinh.swing.HFrame;
 
