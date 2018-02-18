@@ -1,12 +1,8 @@
 package org.dreambot.articron.api.util.banking;
 
-
-import org.dreambot.articron.api.APIProvider;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
 
 public class WithdrawItem {

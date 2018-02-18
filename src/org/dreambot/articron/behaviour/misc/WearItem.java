@@ -26,7 +26,11 @@ public class WearItem extends Node {
     @Override
     public int onLoop(APIProvider api) {
        // MethodProvider.log(Arrays.toString(itemNames));
-
+        if(api.getDB().getBank().isOpen()) {
+            if (api.getDB().getBank().close()) {
+                MethodProvider.sleepUntil(() -> !api.getDB().getBank().isOpen(),1000);
+            }
+        }
 
         if (!api.getDB().getTabs().isOpen(Tab.INVENTORY)) {
             if (api.getDB().getTabs().open(Tab.INVENTORY)) {

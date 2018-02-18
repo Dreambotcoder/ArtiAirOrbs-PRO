@@ -30,7 +30,7 @@ public class OtherSettings extends HPanel {
         HPanel sub = new HPanel(new GridLayout(0, 2));
         add(sub, BorderLayout.NORTH);
 
-        sub.add(exchange = new HCheckBox("Use Grand Exchange"));
+       /** sub.add(exchange = new HCheckBox("Use Grand Exchange"));
         sub.add(checkBox = new HCheckBox("Buy a fixed amount"));
         checkBox.setVisible(false);
 
@@ -56,7 +56,7 @@ public class OtherSettings extends HPanel {
             checkBox.setVisible(ItemEvent.SELECTED == listener.getStateChange());
         });
         checkBox.addItemListener(listener -> exchangePanel.toggle(listener.getStateChange() == ItemEvent.SELECTED));
-        cardLayout.show(mainCard, "EMPTY");
+        cardLayout.show(mainCard, "EMPTY");**/
     }
 
     public HCheckBox getExchange() {

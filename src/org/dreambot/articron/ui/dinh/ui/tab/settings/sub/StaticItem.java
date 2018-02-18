@@ -30,7 +30,7 @@ public class StaticItem extends HPanel {
         add(price = new HHintPriceTextField(id), BorderLayout.SOUTH);
         add(label = new HLabel(JLabel.CENTER), BorderLayout.CENTER);
         setBorder(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 1));
-        amount.setEditable(false);
+        amount.setEditable(true);
         amount.setText("DYNAMIC");
         update(id);
 

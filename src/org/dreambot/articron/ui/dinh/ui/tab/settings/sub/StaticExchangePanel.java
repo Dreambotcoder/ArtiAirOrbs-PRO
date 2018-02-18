@@ -25,6 +25,10 @@ public class StaticExchangePanel extends HPanel {
         add(items[3] = new StaticItem(11978));
         add(items[4] = new StaticItem(315));
         add(sell = new StaticItem(573));
+        for (int i = 2; i < items.length; i++) {
+            items[i].getAmount().setText("");
+            items[i].getAmount().setEditable(true);
+        }
     }
 
     public void updateFood(int id) {
@@ -36,7 +40,7 @@ public class StaticExchangePanel extends HPanel {
     }
 
     public void toggle(boolean editable) {
-        for (int i = 2; i < items.length; i++) {
+        for (int i = 0; i < 2; i++) {
             if (!editable) {
                 items[i].getAmount().setText("DYNAMIC");
             } else {

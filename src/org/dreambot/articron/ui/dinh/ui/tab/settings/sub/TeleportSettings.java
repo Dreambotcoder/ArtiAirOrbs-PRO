@@ -29,7 +29,7 @@ public class TeleportSettings extends HPanel {
         constraints.weighty = 1;
 
         add(teleportPanel = new HButtonGroup(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Amulet of Glory", "POH tablet"), constraints);
-        add(teleportOptions = new HButtons(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Stamina potions", "Teleport when attacked", "Stop without supplies"), constraints);
+        add(teleportOptions = new HButtons(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), "Stamina potions", "Tick charge", "Pray for demons"), constraints);
         add(selection = new TeleportSelection(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), JSlider.HORIZONTAL, 0, 100, 30), constraints);
     }
 

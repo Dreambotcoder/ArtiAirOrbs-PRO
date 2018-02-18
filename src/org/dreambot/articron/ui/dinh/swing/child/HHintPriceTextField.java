@@ -44,6 +44,9 @@ public class HHintPriceTextField extends HPanel {
         new Thread(() -> textField.setText(String.valueOf(PriceCheck.getPrice(id)))).start();
     }
 
+    public int getPrice() {
+        return Integer.parseInt(textField.getText());
+    }
     public void update(int id) {
         new Thread(() -> textField.setText(String.valueOf(PriceCheck.getPrice(id)))).start();
     }

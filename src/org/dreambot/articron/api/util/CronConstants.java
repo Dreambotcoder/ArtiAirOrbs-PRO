@@ -13,6 +13,11 @@ import java.util.List;
 
 public class CronConstants {
 
+    /*
+     * For node test loaders
+     */
+    public static final boolean TEST_ENVIRONMENT = false;
+
     public static final int BASE_SLEEP = 200;
 
     public static final int CHARGE_ANIM = 726;
@@ -70,6 +75,5 @@ public class CronConstants {
     public static int getRealPercentage(int part, int total) {
         return ((part * 100) / total);
     }
-
 
 }

@@ -54,8 +54,7 @@ public class MakeHandler {
         if (!isOpen())
             return false;
         api.getDB().getKeyboard().type(" ");
-        MethodProvider.sleep(1000);
-        return !isOpen();
+        return MethodProvider.sleepUntil(() -> !isOpen(), 1000);
     }
 
     public int getCustomAmount() {

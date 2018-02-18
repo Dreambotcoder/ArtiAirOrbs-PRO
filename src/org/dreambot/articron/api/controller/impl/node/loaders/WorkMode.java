@@ -2,6 +2,7 @@ package org.dreambot.articron.api.controller.impl.node.loaders;
 
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
+import org.dreambot.api.methods.prayer.Prayer;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.NodeController;
@@ -11,8 +12,13 @@ import org.dreambot.articron.api.util.banking.ItemSet;
 import org.dreambot.articron.behaviour.banking.*;
 import org.dreambot.articron.behaviour.craft.MakeAction;
 import org.dreambot.articron.behaviour.craft.MakeOrbs;
+import org.dreambot.articron.behaviour.craft.TickMakeOrbs;
+import org.dreambot.articron.behaviour.deathwalk.DeathTree;
+import org.dreambot.articron.behaviour.deathwalk.WalkToDeathBank;
 import org.dreambot.articron.behaviour.emergency.EatFood;
 import org.dreambot.articron.behaviour.misc.*;
+import org.dreambot.articron.behaviour.poh.POHTree;
+import org.dreambot.articron.behaviour.poh.UseMountedGlory;
 import org.dreambot.articron.behaviour.traversal.DrinkStamina;
 import org.dreambot.articron.behaviour.traversal.WalkToObelisk;
 import org.dreambot.articron.behaviour.traversal.teleport.GloryTele;
@@ -34,7 +40,6 @@ public class WorkMode implements NodeLoader {
         int orbCount = api.getSettings().getOrbcount();
         int eatPercentage = api.getSettings().getEatPercentage();
         boolean staminas = api.getSettings().isUseStamina();
-        boolean tpWhenAttacked = api.getSettings().isTeleportWhenAttacked();
         boolean stopWithoutSupplies = api.getSettings().isStopWithoutSupplies();
         boolean useGlory = api.getSettings().isUseGlory();
         Edible selectedFood = api.getSettings().getSelectedFood();
@@ -55,7 +60,8 @@ public class WorkMode implements NodeLoader {
             if (stopWithoutSupplies) {
                 api.getNodeController().stopScript("Out of supplies");
             } else {
-                api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                //api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                api.getUtil().getGrandExchange().readCache(api.getUtil().getBankManager().getCache());
                 api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
             }
         }));
@@ -68,7 +74,8 @@ public class WorkMode implements NodeLoader {
             if (stopWithoutSupplies) {
                 api.getNodeController().stopScript("Out of supplies");
             } else {
-                api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                //api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                api.getUtil().getGrandExchange().readCache(api.getUtil().getBankManager().getCache());
                 api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
             }
         }));
@@ -86,7 +93,8 @@ public class WorkMode implements NodeLoader {
             if (stopWithoutSupplies) {
                 api.getNodeController().stopScript("Out of supplies");
             } else {
-                api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+               // api.getUtil().getGrandExchange().setDeficits(api.getUtil().getBankManager().getDeficits());
+                api.getUtil().getGrandExchange().readCache(api.getUtil().getBankManager().getCache());
                 api.getNodeController().setMode(ScriptMode.GRAND_EXCHANGE);
             }
         }));
@@ -121,6 +129,10 @@ public class WorkMode implements NodeLoader {
         new DefaultZoom(
                 () -> api.getDB().getClientSettings().getExactZoomValue() != CronConstants.DEFAULT_ZOOM
         ),
+                new POHTree(() -> api.getUtil().atPOH()).addChildren(
+                        new UseMountedGlory(() -> true)
+                ),
+
                 new HopWorld(
                         () -> !api.getDB().getLocalPlayer().isInCombat() && api.getUtil().getAntiPkController().shouldHop()
                         && !api.getUtil().getMakeHandler().isOpen()
@@ -162,12 +174,25 @@ public class WorkMode implements NodeLoader {
                 new WearItem(
                         () -> !api.getUtil().hasStaff(), "Staff of air"
                 ),
-                /**new PrayMelee(
-                        () -> api.getUtil().shouldPray() && !api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
-                ),
-                new DisablePray(
-                        () -> !api.getUtil().shouldPray() && api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
-                ),**/
+                new DeathTree(() -> !api.getUtil().hasTeleport() &&
+                        !api.getUtil().atPOH() &&
+                        !CronConstants.BANK_AREA.contains(api.getDB().getLocalPlayer())).addChildren(
+                        new WalkToDeathBank(() -> !api.getDB().getBank().getClosestBankLocation().getArea(10).contains(api.getDB().getLocalPlayer())),
+                        new OpenBank(() -> !api.getDB().getBank().isOpen() && api.getDB().getBank().getClosestBankLocation().getArea(10).contains(api.getDB().getLocalPlayer())),
+                        new SingularWithdraw(api.getSettings().isUseGlory() ? "Amulet of glory(6)" : "Teleport to house", () -> api.getDB().getBank().isOpen())
+                )
+        );
+        if (api.getSettings().isPrayDemons()) {
+            controller.commit(
+                    new PrayMelee(
+                            () -> api.getUtil().shouldPray() && !api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
+                    ),
+                    new DisablePray(
+                            () -> !api.getUtil().shouldPray() && api.getDB().getPrayer().isActive(Prayer.PROTECT_FROM_MELEE)
+                    )
+            );
+        }
+        controller.commit(
                 useGlory ?
                         new GloryTele(
                                 () -> api.getUtil().shouldTeleport() && !CronConstants.BANK_AREA.contains(api.getDB().getLocalPlayer())
@@ -179,15 +204,25 @@ public class WorkMode implements NodeLoader {
 
                 new WalkToObelisk(
                         () -> !api.getUtil().atObelisk() && !api.getUtil().shouldBank()
-                ),
-                new MakeOrbs(
-                        () -> api.getUtil().atObelisk() && !api.getUtil().getMakeHandler().isOpen()
-                                && !api.getUtil().isCharging() && api.getDB().getInventory().contains("Unpowered orb")
-                ),
-                new MakeAction(
-                        () -> api.getUtil().atObelisk() && api.getUtil().getMakeHandler().isOpen()
-                                && !api.getUtil().isCharging()
                 )
         );
+        if (!api.getSettings().isTickCharge()) {
+            controller.commit(
+                    new MakeOrbs(
+                            () -> api.getUtil().atObelisk() && !api.getUtil().getMakeHandler().isOpen()
+                                    && !api.getUtil().isCharging() && api.getDB().getInventory().contains("Unpowered orb")
+                    ),
+                    new MakeAction(
+                            () -> api.getUtil().atObelisk() && api.getUtil().getMakeHandler().isOpen()
+                                    && !api.getUtil().isCharging()
+                    )
+            );
+        } else {
+            controller.commit(
+                    new TickMakeOrbs(
+                            () -> api.getUtil().atObelisk() &&
+                                    api.getDB().getInventory().contains("Unpowered orb"))
+            );
+        }
     }
 }

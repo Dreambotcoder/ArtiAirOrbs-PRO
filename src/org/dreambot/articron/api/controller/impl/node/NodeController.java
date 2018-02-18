@@ -3,6 +3,7 @@ package org.dreambot.articron.api.controller.impl.node;
 import org.dreambot.api.data.GameState;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.loaders.GrandExchangeMode;
+import org.dreambot.articron.api.controller.impl.node.loaders.TestMode;
 import org.dreambot.articron.api.controller.impl.node.loaders.WorkMode;
 import org.dreambot.articron.api.util.CronConstants;
 import org.dreambot.articron.data.ScriptMode;
@@ -34,6 +35,7 @@ public class NodeController  {
     private void addLoaders() {
         loaders.add(new WorkMode());
         loaders.add(new GrandExchangeMode());
+        loaders.add(new TestMode());
     }
 
     public void commit(Node... elements) {

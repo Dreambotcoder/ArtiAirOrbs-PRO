@@ -53,8 +53,6 @@ public class CronTray {
             showPaint.setLabel((CronConstants.SHOW_PAINT ? "Hide" : "Show").concat(" paint"));
         });
         stopScript.addActionListener(e -> api.getNodeController().stopScript("Tray shutdown request"));
-        this.popupMenu.add(blacklist);
-        this.popupMenu.add(showLogs);
         this.popupMenu.add(showPaint);
         this.popupMenu.add(stopScript);
 

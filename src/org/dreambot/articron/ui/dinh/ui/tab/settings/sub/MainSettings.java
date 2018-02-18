@@ -23,7 +23,7 @@ public class MainSettings extends HPanel {
         super(new GridLayout(0, 1), border);
 
         add(mandatorySettings = new MandatorySettings(SettingPanel.getBorder("Mandatory")));
-        add(otherSettings = new OtherSettings(box, SettingPanel.getBorder("Exchange")));
+        add(otherSettings = new OtherSettings(box, SettingPanel.getBorder("TBD")));
     }
 
     public MandatorySettings getMandatorySettings() {

@@ -21,11 +21,16 @@ public class GloryTele extends Node {
 
     @Override
     public int onLoop(APIProvider api) {
+        if(api.getDB().getBank().isOpen()) {
+            if (api.getDB().getBank().close()) {
+                MethodProvider.sleepUntil(() -> !api.getDB().getBank().isOpen(),1000);
+            }
+        }
         if (api.getDB().getMagic().isSpellSelected()) {
             api.getDB().getMouse().click();
         }
         if (api.getDB().getEquipment().interact(EquipmentSlot.AMULET, "Edgeville")) {
-            MethodProvider.sleepUntil(() -> !api.getUtil().atObelisk(), 3000);
+            MethodProvider.sleepUntil(() -> CronConstants.BANK_AREA.contains(api.getDB().getLocalPlayer()), 3000);
         }
         return CronConstants.BASE_SLEEP;
     }

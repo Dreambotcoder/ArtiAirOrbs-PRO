@@ -1,9 +1,11 @@
 package org.dreambot.articron.api.controller.impl.node.loaders;
 
+import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.walking.web.node.impl.bank.WebBankArea;
 import org.dreambot.articron.api.APIProvider;
 import org.dreambot.articron.api.controller.impl.node.NodeController;
 import org.dreambot.articron.api.controller.impl.node.NodeLoader;
+import org.dreambot.articron.api.util.ge.GEItem;
 import org.dreambot.articron.behaviour.banking.OpenBank;
 import org.dreambot.articron.behaviour.traversal.WalkToGE;
 import org.dreambot.articron.data.ScriptMode;
@@ -18,6 +20,11 @@ public class GrandExchangeMode implements NodeLoader {
 
     @Override
     public void load(NodeController controller, APIProvider api, MainUI ui) {
+
+        for (GEItem item : api.getUtil().getGrandExchange().getItemsToBuy()) {
+            MethodProvider.log(item.toString());
+        }
+
         controller.commit(
                 new WalkToGE(
                         () ->!WebBankArea.GRAND_EXCHANGE.getArea().contains(api.getDB().getLocalPlayer())

@@ -1,6 +1,8 @@
 package org.dreambot.articron.ui.dinh.ui.tab.info;
 
 import org.dreambot.articron.api.APIProvider;
+import org.dreambot.articron.api.util.CronConstants;
+import org.dreambot.articron.data.ScriptMode;
 import org.dreambot.articron.ui.dinh.swing.HFrame;
 import org.dreambot.articron.ui.dinh.swing.HPanel;
 import org.dreambot.articron.ui.dinh.swing.child.HButton;
@@ -42,6 +44,7 @@ public class InformationPanel extends HPanel {
         buttons.add(button);
         buttons.add(new HButton("Start", listener -> {
             api.getSettings().consume(main);
+            api.getNodeController().setMode(CronConstants.TEST_ENVIRONMENT ? ScriptMode.TEST : ScriptMode.WORK);
             main.dispose();
         }));
         top.add(information, BorderLayout.WEST);

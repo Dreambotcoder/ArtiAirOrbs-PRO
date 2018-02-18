@@ -21,12 +21,17 @@ public class TabTeleport extends Node {
 
     @Override
     public int onLoop(APIProvider api) {
+        if(api.getDB().getBank().isOpen()) {
+            if (api.getDB().getBank().close()) {
+                MethodProvider.sleepUntil(() -> !api.getDB().getBank().isOpen(),1000);
+            }
+        }
         if (api.getDB().getMagic().isSpellSelected()) {
             api.getDB().getMouse().click();
         }
         Item tab = api.getDB().getInventory().get("Teleport to house");
         if (tab != null && tab.interact("Break")) {
-            MethodProvider.sleepUntil(() -> !api.getUtil().atObelisk(), 3000);
+            MethodProvider.sleepUntil(() -> api.getUtil().atPOH(), 3000);
         }
         return CronConstants.BASE_SLEEP;
     }

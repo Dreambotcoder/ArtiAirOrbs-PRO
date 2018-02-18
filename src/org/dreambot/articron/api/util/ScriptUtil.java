@@ -51,10 +51,32 @@ public class ScriptUtil {
         if (api.getDB().getSkills().getBoostedLevels(Skill.PRAYER) <= 0)
             return false;
         NPC demon = api.getDB().getNpcs().closest("Black demon");
-        return demon != null && demon.distance() <= 7;
+        return demon != null && demon.distance() <= 12;
     }
 
-    public void setTeleportCondition(BooleanSupplier supplier) {
+    public boolean atPOH() {
+        GameObject portal = api.getDB().getGameObjects().closest(object -> object != null && object.getName().equals("Portal")
+        && object.hasAction("Lock"));
+        return portal != null;
+    }
+
+    public boolean useGloryOnWall() {
+        if (!atPOH())
+            return false;
+        GameObject glory = api.getDB().getGameObjects().closest(object -> object != null && object.getName().equals("Amulet of Glory")
+                && object.hasAction("Edgeville"));
+        if (glory != null) {
+            if (!api.getDB().getMap().canReach(glory)) {
+                return api.getDB().getWalking().walk(glory);
+            } else {
+                return glory.interact("Edgeville");
+            }
+        }
+        return false;
+    }
+
+
+        public void setTeleportCondition(BooleanSupplier supplier) {
         this.teleportCondition = supplier;
     }
     public boolean hasTeleport() {

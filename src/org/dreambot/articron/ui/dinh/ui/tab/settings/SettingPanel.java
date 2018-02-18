@@ -41,21 +41,21 @@ public class SettingPanel extends HPanel {
             comboBox.getEditor().setIcon(new ImageIcon((object.getImage())));
             mainSettings.getMandatorySettings().getFoodSelection().updateName(object.toString());
             mainSettings.getMandatorySettings().getFoodSelection().updateHeal(object.getId());
-            mainSettings.getOtherSettings().getExchangePanel().updateFood(object.getId());
-            mainSettings.getOtherSettings().getExchangePanel().get()[4].getPrice().update(object.getId());
+//            mainSettings.getOtherSettings().getExchangePanel().updateFood(object.getId());
+  //          mainSettings.getOtherSettings().getExchangePanel().get()[4].getPrice().update(object.getId());
         });
 
-        HCheckBox checkBox = getTeleportSettings().getTeleportPanel().getArray()[0];
+    HCheckBox checkBox = getTeleportSettings().getTeleportPanel().getArray()[0];
         checkBox.addItemListener(listener -> {
-            if (listener.getStateChange() == ItemEvent.SELECTED) {
-                mainSettings.getOtherSettings().getExchangePanel().get()[3].update(11978);
-                mainSettings.getOtherSettings().getExchangePanel().get()[3].getPrice().update(11978);
-            } else {
-                mainSettings.getOtherSettings().getExchangePanel().get()[3].update(8013);
-                mainSettings.getOtherSettings().getExchangePanel().get()[3].getPrice().update(8013);
-            }
-        });
-    }
+        if (listener.getStateChange() == ItemEvent.SELECTED) {
+            //   mainSettings.getOtherSettings().getExchangePanel().get()[3].update(11978);
+            // mainSettings.getOtherSettings().getExchangePanel().get()[3].getPrice().update(11978);
+        } else {
+//                mainSettings.getOtherSettings().getExchangePanel().get()[3].update(8013);
+            //              mainSettings.getOtherSettings().getExchangePanel().get()[3].getPrice().update(8013);
+        }
+    });
+}
 
     public static TitledBorder getBorder(String title) {
         TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 2), title);
